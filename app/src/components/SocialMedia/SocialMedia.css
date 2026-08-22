@@ -152,6 +152,10 @@
   color: var(--gold);
 }
 
+:root[data-theme="light"] .social-card {
+  background: var(--bg-glass);
+}
+
 @media (max-width: 900px) {
   .social-grid {
     grid-template-columns: 1fr;

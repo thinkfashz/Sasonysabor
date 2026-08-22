@@ -108,6 +108,8 @@
   background: var(--blue);
 }
 
+/* No light theme overrides needed - Footer uses CSS variables */
+
 @media (max-width: 900px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;

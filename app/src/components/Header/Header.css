@@ -105,6 +105,40 @@
   font-size: 0.85rem;
 }
 
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(200, 150, 46, 0.1);
+  border: 1px solid var(--border-subtle);
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: rgba(200, 150, 46, 0.2);
+  border-color: var(--border-gold);
+  transform: rotate(15deg) scale(1.1);
+  box-shadow: 0 4px 16px rgba(200, 150, 46, 0.2);
+}
+
+:root[data-theme="light"] .header {
+  background: rgba(250, 248, 245, 0.85);
+}
+
+:root[data-theme="light"] .burger span {
+  background: var(--gold-dark);
+}
+
+:root[data-theme="light"] .nav {
+  background: rgba(250, 248, 245, 0.97);
+}
+
 .burger {
   display: none;
   flex-direction: column;

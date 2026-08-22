@@ -15,6 +15,11 @@
   will-change: transform;
 }
 
+:root[data-theme="light"] .particle {
+  opacity: 0.15;
+  filter: blur(1px);
+}
+
 @keyframes particleRise {
   0% {
     transform: translateY(0) translateX(0) scale(1);

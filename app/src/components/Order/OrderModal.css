@@ -172,6 +172,15 @@
   line-height: 1.6;
 }
 
+:root[data-theme="light"] .order-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+:root[data-theme="light"] .order-modal {
+  background: var(--bg-glass);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
+}
+
 @media (max-width: 600px) {
   .order-overlay {
     align-items: flex-end;

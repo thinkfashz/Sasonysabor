@@ -203,6 +203,22 @@
   filter: grayscale(0.2) brightness(0.85) contrast(1.05);
 }
 
+:root[data-theme="light"] .contact-info {
+  background: var(--bg-glass);
+}
+
+:root[data-theme="light"] .contact-form {
+  background: var(--bg-glass);
+}
+
+:root[data-theme="light"] .contact-info {
+  background: var(--bg-glass);
+}
+
+:root[data-theme="light"] .contact-form {
+  background: var(--bg-glass);
+}
+
 @media (max-width: 900px) {
   .contact-grid {
     grid-template-columns: 1fr;

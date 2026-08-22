@@ -139,6 +139,10 @@
   height: 14px;
 }
 
+:root[data-theme="light"] .testi-card {
+  background: var(--bg-glass);
+}
+
 @media (max-width: 900px) {
   .testi-grid {
     grid-template-columns: 1fr;

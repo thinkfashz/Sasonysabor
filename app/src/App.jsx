@@ -14,40 +14,43 @@ import OrderModal from "./components/Order/OrderModal.jsx";
 import Particles from "./components/Particles/Particles.jsx";
 import ScrollReveal from "./components/ScrollReveal/ScrollReveal.jsx";
 import CartProvider from "./context/CartProvider";
+import { ThemeProvider } from "./context/ThemeContext";
 
 export default function App() {
   return (
-    <CartProvider>
-      <Particles count={25} />
-      <Header />
-      <main>
-        <Hero />
-        <ScrollReveal>
-          <Categories />
-        </ScrollReveal>
-        <ScrollReveal delay={100}>
-          <Menu />
-        </ScrollReveal>
-        <ScrollReveal>
-          <Promotions />
-        </ScrollReveal>
-        <ScrollReveal delay={100}>
-          <About />
-        </ScrollReveal>
-        <ScrollReveal>
-          <Testimonials />
-        </ScrollReveal>
-        <ScrollReveal delay={100}>
-          <SocialMedia />
-        </ScrollReveal>
-        <ScrollReveal>
-          <Contact />
-        </ScrollReveal>
-      </main>
-      <Footer />
-      <BottomBar />
-      <CartDrawer />
-      <OrderModal />
-    </CartProvider>
+    <ThemeProvider>
+      <CartProvider>
+        <Particles count={25} />
+        <Header />
+        <main>
+          <Hero />
+          <ScrollReveal>
+            <Categories />
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <Menu />
+          </ScrollReveal>
+          <ScrollReveal>
+            <Promotions />
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <About />
+          </ScrollReveal>
+          <ScrollReveal>
+            <Testimonials />
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <SocialMedia />
+          </ScrollReveal>
+          <ScrollReveal>
+            <Contact />
+          </ScrollReveal>
+        </main>
+        <Footer />
+        <BottomBar />
+        <CartDrawer />
+        <OrderModal />
+      </CartProvider>
+    </ThemeProvider>
   );
 }

@@ -254,6 +254,14 @@
   75% { transform: translateY(-6px) rotateZ(3deg) rotateY(-10deg); }
 }
 
+:root[data-theme="light"] .about-card {
+  background: var(--bg-glass);
+}
+
+:root[data-theme="light"] .about-card {
+  background: var(--bg-glass);
+}
+
 @media (max-width: 900px) {
   .about-grid {
     grid-template-columns: 1fr;

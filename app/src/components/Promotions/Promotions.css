@@ -147,6 +147,10 @@
   background-clip: text;
 }
 
+:root[data-theme="light"] .promo-card {
+  background: var(--bg-glass);
+}
+
 @media (max-width: 1024px) {
   .promo-grid {
     grid-template-columns: repeat(2, 1fr);

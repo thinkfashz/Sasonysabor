@@ -235,6 +235,15 @@
   padding: 12px 20px;
 }
 
+:root[data-theme="light"] .cart-overlay {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+:root[data-theme="light"] .cart-panel {
+  background: var(--bg-glass);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.1);
+}
+
 @media (max-width: 480px) {
   .cart-panel {
     width: 100%;

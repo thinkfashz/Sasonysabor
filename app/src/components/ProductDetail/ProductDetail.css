@@ -379,6 +379,25 @@
   to { transform: scale(1) translateY(0); opacity: 1; }
 }
 
+:root[data-theme="light"] .pd-overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+:root[data-theme="light"] .pd-modal {
+  background: var(--bg-card);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.15);
+}
+
+:root[data-theme="light"] .pd-close {
+  background: rgba(26, 20, 16, 0.08);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+:root[data-theme="light"] .pd-close:hover {
+  background: rgba(204, 41, 54, 0.12);
+}
+
 @media (max-width: 600px) {
   .pd-overlay {
     padding: 0;

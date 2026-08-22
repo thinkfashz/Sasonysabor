@@ -270,3 +270,66 @@ button {
   0% { transform: perspective(1000px) rotateY(0deg); }
   100% { transform: perspective(1000px) rotateY(360deg); }
 }
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes ripple {
+  to { transform: scale(4); opacity: 0; }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+:root[data-theme="light"] {
+  --bg-primary: #FAF8F5;
+  --bg-secondary: #F0ECE6;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F5F1EB;
+  --bg-glass: rgba(255, 255, 255, 0.8);
+  --bg-glass-light: rgba(200, 150, 46, 0.06);
+  --text-primary: #1A1410;
+  --text-secondary: #5A5248;
+  --text-muted: #8A8278;
+  --border-subtle: rgba(200, 150, 46, 0.15);
+  --border-gold: rgba(200, 150, 46, 0.3);
+  --border-strong: rgba(200, 150, 46, 0.5);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.12);
+  --shadow-gold: 0 8px 32px rgba(200, 150, 46, 0.15);
+  --shadow-glow: 0 0 40px rgba(200, 150, 46, 0.1);
+}
+
+:root[data-theme="light"] body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+:root[data-theme="light"] ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+:root[data-theme="light"] ::selection {
+  background: var(--gold);
+  color: #fff;
+}
