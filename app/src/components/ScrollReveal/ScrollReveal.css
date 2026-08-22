@@ -1,0 +1,30 @@
+.scroll-reveal {
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.sr-up {
+  transform: translateY(40px);
+}
+
+.sr-down {
+  transform: translateY(-40px);
+}
+
+.sr-left {
+  transform: translateX(-40px);
+}
+
+.sr-right {
+  transform: translateX(40px);
+}
+
+.sr-scale {
+  transform: scale(0.9);
+}
+
+.sr-visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}

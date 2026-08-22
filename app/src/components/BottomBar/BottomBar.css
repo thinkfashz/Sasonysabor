@@ -1,0 +1,133 @@
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  display: none;
+  align-items: stretch;
+  background: rgba(12, 12, 12, 0.92);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-top: 1px solid var(--border-subtle);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bottom-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.3;
+}
+
+.bb-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 9px 4px;
+  transition: color 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.bb-item svg {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.3s ease;
+}
+
+.bb-item:hover,
+.bb-item:active {
+  color: var(--gold);
+}
+
+.bb-item:hover svg {
+  transform: scale(1.1);
+}
+
+.bb-icon {
+  position: relative;
+  display: inline-flex;
+}
+
+.bb-badge {
+  position: absolute;
+  top: -7px;
+  right: -10px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  color: #fff;
+  font-size: 0.64rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--bg-primary);
+  box-shadow: 0 2px 8px var(--red-glow);
+}
+
+.bb-logo {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  margin-top: -30px;
+}
+
+.bb-logo img {
+  width: 66px;
+  height: 66px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 2px solid var(--gold);
+  box-shadow: 0 4px 16px rgba(200, 150, 46, 0.3);
+  padding: 6px;
+}
+
+.bb-order {
+  color: var(--gold);
+}
+
+.bb-order:active {
+  color: var(--gold-light);
+}
+
+@media (max-width: 860px) {
+  .bottom-bar {
+    display: flex;
+  }
+}
+
+@media (max-width: 380px) {
+  .bb-item {
+    font-size: 0.6rem;
+    padding: 7px 2px;
+  }
+
+  .bb-item svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .bb-logo img {
+    width: 58px;
+    height: 58px;
+  }
+}

@@ -1,0 +1,197 @@
+.promotions {
+  background: var(--bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.promotions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-gold), transparent);
+}
+
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.promo-card {
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.promo-red::before { background: linear-gradient(90deg, var(--red), var(--red-dark)); }
+.promo-gold::before { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+.promo-yellow::before { background: linear-gradient(90deg, var(--gold), var(--yellow)); }
+.promo-blue::before { background: linear-gradient(90deg, var(--blue), #4A90D9); }
+
+.promo-card:hover::before {
+  transform: scaleX(1);
+}
+
+.promo-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  border-color: var(--border-gold);
+}
+
+.promo-emoji-wrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(200, 150, 46, 0.12), rgba(200, 150, 46, 0.04));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  border: 1px solid var(--border-subtle);
+  transition: all 0.4s ease;
+}
+
+.promo-card:hover .promo-emoji-wrap {
+  transform: scale(1.1) rotateY(15deg);
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-gold);
+}
+
+.promo-emoji {
+  font-size: 2.4rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.promo-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.promo-gold .promo-badge {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--bg-primary);
+}
+
+.promo-yellow .promo-badge {
+  background: linear-gradient(135deg, var(--gold), var(--yellow-dark));
+  color: var(--bg-primary);
+}
+
+.promo-blue .promo-badge {
+  background: linear-gradient(135deg, var(--blue), #4A90D9);
+}
+
+.promo-content h3 {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.promo-content p {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.promo-prices {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.promo-old {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.promo-new {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media (max-width: 1024px) {
+  .promo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .promo-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .promo-card {
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    gap: 16px;
+  }
+
+  .promo-emoji-wrap {
+    margin: 0;
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+  }
+
+  .promo-emoji {
+    font-size: 1.8rem;
+  }
+
+  .promo-content {
+    flex: 1;
+  }
+
+  .promo-content h3 {
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+
+  .promo-content p {
+    font-size: 0.82rem;
+  }
+
+  .promo-new {
+    font-size: 1.2rem;
+  }
+}
