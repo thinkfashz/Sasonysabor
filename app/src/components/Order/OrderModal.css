@@ -121,6 +121,11 @@
   text-align: center;
   justify-content: center;
   margin-top: 8px;
+  min-height: 48px;
+}
+
+.order-submit:active {
+  transform: scale(0.96);
 }
 
 .order-empty {
@@ -190,7 +195,8 @@
   .order-modal {
     width: 100%;
     max-height: 92vh;
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    border-radius: 14px 14px 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
   .order-head {

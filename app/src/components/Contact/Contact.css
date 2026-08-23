@@ -150,6 +150,11 @@
 .contact-submit {
   align-self: flex-start;
   margin-top: 4px;
+  min-height: 48px;
+}
+
+.contact-submit:active {
+  transform: scale(0.96);
 }
 
 .info-link {
@@ -182,6 +187,11 @@
   width: 100%;
   justify-content: center;
   text-align: center;
+  min-height: 48px;
+}
+
+.contact-whatsapp:active {
+  transform: scale(0.96);
 }
 
 .contact-map {
@@ -270,8 +280,9 @@
 
   .contact-form input,
   .contact-form textarea {
-    padding: 12px 14px;
+    padding: 14px;
     font-size: 0.92rem;
+    min-height: 48px;
   }
 
   .contact-map {
@@ -281,5 +292,10 @@
   .contact-submit {
     width: 100%;
     justify-content: center;
+  }
+
+  .contact-submit,
+  .contact-whatsapp {
+    min-height: 48px;
   }
 }

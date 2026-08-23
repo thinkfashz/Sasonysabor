@@ -33,13 +33,20 @@
   backdrop-filter: blur(8px);
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+}
+
+.pd-close:active {
+  transform: scale(0.95);
+  background: rgba(204, 41, 54, 0.6);
 }
 
 .pd-close:hover {
@@ -322,6 +329,11 @@
   transition: all 0.2s ease;
 }
 
+.pd-qty-btn:active:not(:disabled) {
+  transform: scale(0.95);
+  background: rgba(200, 150, 46, 0.15);
+}
+
 .pd-qty-btn:hover:not(:disabled) {
   background: rgba(200, 150, 46, 0.1);
 }
@@ -353,6 +365,14 @@
   justify-content: center;
   text-align: center;
   font-size: 1rem;
+}
+
+.pd-btn-cart:active {
+  transform: scale(0.98);
+}
+
+.pd-btn-wa:active {
+  transform: scale(0.98);
 }
 
 .pd-btn-wa {
@@ -407,7 +427,7 @@
   .pd-modal {
     width: 100%;
     max-height: 95vh;
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    border-radius: 14px 14px 0 0;
   }
 
   .pd-hero {
@@ -453,8 +473,10 @@
   }
 
   .pd-qty-btn {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .pd-qty-value {
@@ -467,5 +489,9 @@
   .pd-btn-wa {
     padding: 12px 20px;
     font-size: 0.9rem;
+  }
+
+  .pd-actions {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }

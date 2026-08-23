@@ -38,19 +38,25 @@
   font-size: 0.66rem;
   font-weight: 700;
   padding: 9px 4px;
-  transition: color 0.3s ease;
+  min-height: 44px;
+  transition: color 0.3s ease, background 0.2s ease, transform 0.15s ease;
   letter-spacing: 0.02em;
+}
+
+.bb-item:active {
+  transform: scale(0.9);
+  background: rgba(200, 150, 46, 0.1);
+  color: var(--gold);
+}
+
+.bb-item:hover {
+  color: var(--gold);
 }
 
 .bb-item svg {
   width: 22px;
   height: 22px;
   transition: transform 0.3s ease;
-}
-
-.bb-item:hover,
-.bb-item:active {
-  color: var(--gold);
 }
 
 .bb-item:hover svg {
@@ -101,6 +107,10 @@
   padding: 6px;
 }
 
+.bb-logo:active img {
+  transform: scale(0.95);
+}
+
 .bb-order {
   color: var(--gold);
 }
@@ -124,6 +134,7 @@
   .bb-item {
     font-size: 0.6rem;
     padding: 7px 2px;
+    min-height: 44px;
   }
 
   .bb-item svg {

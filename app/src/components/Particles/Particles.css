@@ -20,6 +20,18 @@
   filter: blur(1px);
 }
 
+@media (max-width: 768px) {
+  .particles {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particles {
+    display: none;
+  }
+}
+
 @keyframes particleRise {
   0% {
     transform: translateY(0) translateX(0) scale(1);
