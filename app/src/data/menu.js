@@ -1,4 +1,4 @@
-const ASSET_BASE = 'https://raw.githubusercontent.com/thinkfashz/Sasonysabor/feat/nextjs-pdf-cloudinary-immersive/app/public/assets';
+const ASSET_BASE = 'https://res.cloudinary.com/disghf6xc/image/upload/Sans%C3%B3n%20y%20sabor';
 
 export const brand = {
   name: 'Sazón y Sabor',
@@ -7,7 +7,7 @@ export const brand = {
   instagram: '@sazon_y_saboor',
   address: 'Avenida Las Vegas, esquina Inés de Suárez',
   freeDeliveryMin: 7990,
-  logo: 'https://raw.githubusercontent.com/thinkfashz/Sasonysabor/master/app/public/logo.png'
+  logo: `${ASSET_BASE}/logo-sazon-y-sabor.png`
 };
 
 const img = {
@@ -19,9 +19,7 @@ const img = {
   combo: `${ASSET_BASE}/combo-estrella.png`
 };
 
-const p = (id, name, category, price, description, image, extras = {}) => ({
-  id, name, category, price, description, image, ...extras
-});
+const p = (id, name, category, price, description, image, extras = {}) => ({ id, name, category, price, description, image, ...extras });
 
 export const products = [
   p('completo', 'Completo', 'Completos', 2200, 'Salsa americana, palta, tomate y mayo.', img.completo, { popular: true }),
