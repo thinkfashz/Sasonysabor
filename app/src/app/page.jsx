@@ -1,183 +1,64 @@
 'use client';
+import {useEffect,useMemo,useState} from 'react';
+import {ArrowLeft,ArrowRight,Banknote,Check,ChevronLeft,ChevronRight,Clock3,CreditCard,Landmark,MapPin,Menu,MessageCircle,Minus,Phone,Plus,Search,ShieldCheck,ShoppingBag,Sparkles,Truck,UtensilsCrossed,WalletCards,X} from 'lucide-react';
+import {brand,categories,products,promotions,visuals} from '@/data/menu';
 
-import { useEffect, useMemo, useState } from 'react';
-import { brand, categories, products, promotions, visuals } from '@/data/menu';
+const money=(v)=>`$${Number(v).toLocaleString('es-CL')}`;
+const SCENES={inicio:{tone:'ember',dir:'down'},promos:{tone:'citrus',dir:'right'},catalogo:{tone:'berry',dir:'left'},historia:{tone:'mint',dir:'diag'},contacto:{tone:'ink',dir:'up'}};
+const TONES=['#FFC928','#FF6B4A','#A98CFF','#3ED6A2','#5FC8FF','#F05D8A'];
+const ICONS={search:Search,cart:ShoppingBag,plus:Plus,minus:Minus,close:X,truck:Truck,card:CreditCard,cash:Banknote,check:Check,phone:Phone,pin:MapPin,arrow:ArrowRight,whatsapp:MessageCircle,back:ArrowLeft,shield:ShieldCheck,clock:Clock3,food:UtensilsCrossed};
+function Icon({name,size=18}){const C=ICONS[name]||Sparkles;return <C aria-hidden size={size}/>}
+function SceneBackground({scene}){return <div key={`${scene.tone}-${scene.dir}`} className={`scene-bg scene-${scene.tone} wipe-${scene.dir}`} aria-hidden><span/><i/></div>}
 
-const money = (value) => `$${Number(value).toLocaleString('es-CL')}`;
-const SCENES = {
-  inicio: { tone: 'ember', dir: 'down' },
-  promos: { tone: 'gold', dir: 'right' },
-  catalogo: { tone: 'wine', dir: 'left' },
-  historia: { tone: 'forest', dir: 'diag' },
-  contacto: { tone: 'midnight', dir: 'up' }
-};
-
-function Icon({ name }) {
-  const icons = { search:'⌕', cart:'🛒', plus:'+', minus:'−', close:'×', truck:'🚚', card:'▣', cash:'▤', check:'✓', phone:'☎', pin:'⌖', arrow:'→', whatsapp:'◉', back:'←' };
-  return <span aria-hidden>{icons[name] || '•'}</span>;
+function Loader({onDone}){
+ const [progress,setProgress]=useState(5),[leaving,setLeaving]=useState(false);
+ useEffect(()=>{const t=setInterval(()=>setProgress(p=>Math.min(100,p+Math.max(3,Math.ceil(Math.random()*10)))),95);return()=>clearInterval(t)},[]);
+ useEffect(()=>{if(progress<100)return;const a=setTimeout(()=>setLeaving(true),180),b=setTimeout(onDone,680);return()=>{clearTimeout(a);clearTimeout(b)}},[progress,onDone]);
+ return <div className={`loader-screen ${leaving?'leaving':''}`}><div className="loader-wash"/><div className="loader-brand"><img className="loader-logo" src={brand.logo} alt="Sazón y Sabor"/><span>Chile · Colombia · en la casa</span></div><div className="loader-food-stage" aria-hidden><span className="loader-food food-one"><img src={visuals.completo} alt=""/></span><span className="loader-food food-two"><img src={visuals.arepa} alt=""/></span><span className="loader-food food-three"><img src={visuals.papas} alt=""/></span></div><div className="loader-copy"><span className="eyebrow">PREPARANDO LA EXPERIENCIA</span><h1>Tu antojo,<br/>bien servido.</h1><p>Menú, carrito y pedido listos en segundos.</p></div><div className="loader-progress"><div className="loader-track"><span style={{width:`${progress}%`}}/></div><strong>{progress}%</strong></div></div>
 }
 
-function SceneBackground({ scene }) {
-  return <div key={`${scene.tone}-${scene.dir}`} className={`scene-bg scene-${scene.tone} wipe-${scene.dir}`} aria-hidden><span/><i/></div>;
+function BenefitStrip(){const a=[[Truck,`Gratis desde ${money(brand.freeDeliveryMin)}`,'Domicilio según cobertura'],[Clock3,'Preparado al momento','Pedido fresco y claro'],[ShieldCheck,'Compra acompañada','Confirmación por WhatsApp'],[MessageCircle,'Sin registro','Compra sin crear una cuenta']];return <section className="benefit-strip">{a.map(([C,t,c])=><div className="benefit-item" key={t}><span className="benefit-icon"><C size={20}/></span><span><strong>{t}</strong><small>{c}</small></span></div>)}</section>}
+
+function ProductCard({item,index,onOpen,onAdd}){
+ const move=e=>{if(matchMedia('(pointer:coarse)').matches)return;const r=e.currentTarget.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;e.currentTarget.style.setProperty('--ry',`${x*5}deg`);e.currentTarget.style.setProperty('--rx',`${y*-4}deg`)};
+ const reset=e=>{e.currentTarget.style.setProperty('--ry','0deg');e.currentTarget.style.setProperty('--rx','0deg')};
+ return <article className="product-card" style={{'--card-tone':TONES[index%TONES.length]}} onPointerMove={move} onPointerLeave={reset}><button className="product-image" onClick={()=>onOpen(item)}><span className="food-glow"/><img src={item.image} alt={item.name} loading="lazy" decoding="async"/>{item.popular&&<span className="badge"><Sparkles size={12}/> Favorito</span>}</button><div className="product-info"><div className="product-title-row"><div><span className="category-kicker">{item.category}</span><h3>{item.name}</h3></div><strong>{money(item.price)}</strong></div><p>{item.description}</p><div className="product-actions"><button className="ghost-action" onClick={()=>onOpen(item)}>Ver detalle</button><button className="add-mini" onClick={()=>onAdd(item)}><Plus size={16}/> Añadir</button></div></div></article>
 }
 
-function Loader({ onDone }) {
-  const [progress, setProgress] = useState(6);
-  const [leaving, setLeaving] = useState(false);
-  useEffect(() => {
-    const timer = setInterval(() => setProgress((p) => Math.min(100, p + Math.max(3, Math.ceil(Math.random() * 11)))), 90);
-    return () => clearInterval(timer);
-  }, []);
-  useEffect(() => {
-    if (progress < 100) return;
-    const exit = setTimeout(() => setLeaving(true), 180);
-    const done = setTimeout(onDone, 650);
-    return () => { clearTimeout(exit); clearTimeout(done); };
-  }, [progress, onDone]);
-  return (
-    <div className={`loader-screen ${leaving ? 'leaving' : ''}`}>
-      <div className="loader-sweep"/>
-      <div className="loader-stage">
-        <span className="loader-orbit orbit-a"><img src={visuals.completo} alt=""/></span>
-        <span className="loader-orbit orbit-b"><img src={visuals.arepa} alt=""/></span>
-        <span className="loader-orbit orbit-c"><img src={visuals.papas} alt=""/></span>
-        <img className="loader-logo" src={brand.logo} alt="Sazón y Sabor" />
-      </div>
-      <div className="loader-copy"><span className="eyebrow">CHILE · COLOMBIA · EN LA CASA</span><h1>Preparando<br/>tu sabor</h1><p>La experiencia se sirve en segundos.</p></div>
-      <div className="loader-progress"><div className="loader-track"><span style={{width:`${progress}%`}}/></div><strong>{progress}%</strong></div>
-    </div>
-  );
+function ProductModal({item,onClose,onAdd}){
+ const [qty,setQty]=useState(1);if(!item)return null;
+ return <div className="modal-backdrop" onMouseDown={onClose}><section className="product-modal" onMouseDown={e=>e.stopPropagation()}><button className="circle-btn modal-close" onClick={onClose}><X size={18}/></button><div className="modal-media"><span className="modal-kicker">Producto protagonista</span><div className="modal-halo"/><img src={item.image} alt={item.name}/></div><div className="modal-body"><span className="eyebrow">{item.category}</span><div className="modal-title"><h2>{item.name}</h2><strong>{money(item.price)}</strong></div><p>{item.description}</p><div className="quality-row"><span><Clock3 size={14}/> Preparado al momento</span><span><Sparkles size={14}/> Ingredientes frescos</span><span><ShieldCheck size={14}/> Compra acompañada</span></div><div className="qty-row"><span>Cantidad</span><div className="qty"><button onClick={()=>setQty(Math.max(1,qty-1))}><Minus size={15}/></button><strong>{qty}</strong><button onClick={()=>setQty(qty+1)}><Plus size={15}/></button></div></div><div className="delivery-note"><Truck size={18}/><div><strong>Domicilio gratis desde {money(brand.freeDeliveryMin)}</strong><small>El carrito te indica cuánto falta.</small></div></div><button className="primary" onClick={()=>{onAdd(item,qty);onClose()}}><ShoppingBag size={17}/> Añadir {qty} · {money(item.price*qty)}</button></div></section></div>
 }
 
-function ProductCard({ item, onOpen, onAdd }) {
-  const move = (e) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - .5;
-    const y = (e.clientY - r.top) / r.height - .5;
-    e.currentTarget.style.setProperty('--ry', `${x * 8}deg`);
-    e.currentTarget.style.setProperty('--rx', `${y * -7}deg`);
-  };
-  const reset = (e) => { e.currentTarget.style.setProperty('--ry','0deg'); e.currentTarget.style.setProperty('--rx','0deg'); };
-  return (
-    <article className="product-card" onPointerMove={move} onPointerLeave={reset}>
-      <button className="product-image" onClick={() => onOpen(item)} aria-label={`Ver ${item.name}`}>
-        <span className="food-glow"/><img src={item.image} alt={item.name} loading="lazy" />
-        {item.popular && <span className="badge">Favorito</span>}
-      </button>
-      <div className="product-info">
-        <div><span className="category-kicker">{item.category}</span><h3>{item.name}</h3></div>
-        <p>{item.description}</p>
-        <div className="product-foot"><strong>{money(item.price)}</strong><button className="add-mini" onClick={() => onAdd(item)}><Icon name="plus"/> Añadir</button></div>
-      </div>
-    </article>
-  );
+function CartDrawer({cart,onClose,onQty,onCheckout}){
+ const total=cart.reduce((s,r)=>s+r.product.price*r.qty,0),missing=Math.max(0,brand.freeDeliveryMin-total),progress=Math.min(100,total/brand.freeDeliveryMin*100);
+ return <div className="modal-backdrop drawer-backdrop" onMouseDown={onClose}><aside className="cart-drawer" onMouseDown={e=>e.stopPropagation()}><header><div><span className="eyebrow">PASO 1 · TU PEDIDO</span><h2>Carrito</h2></div><button className="circle-btn" onClick={onClose}><X size={18}/></button></header><div className="delivery-meter"><div><span className="benefit-icon"><Truck size={18}/></span><span>{missing===0?<><strong>Domicilio gratis activado</strong><small>Tu pedido ya supera el mínimo.</small></>:<><strong>Te faltan {money(missing)}</strong><small>para domicilio gratis.</small></>}</span></div><i><b style={{width:`${progress}%`}}/></i></div><div className="cart-list">{!cart.length&&<div className="empty"><ShoppingBag size={40}/><h3>Tu carrito está esperando</h3><p>Agrega tus favoritos y te guiamos hasta WhatsApp.</p></div>}{cart.map(r=><div className="cart-row" key={r.product.id}><span className="cart-thumb"><img src={r.product.image} alt=""/></span><div className="cart-row-copy"><strong>{r.product.name}</strong><span>{money(r.product.price*r.qty)}</span></div><div className="qty small"><button onClick={()=>onQty(r.product.id,-1)}><Minus size={13}/></button><b>{r.qty}</b><button onClick={()=>onQty(r.product.id,1)}><Plus size={13}/></button></div></div>)}</div><footer><div className="shipping-line"><span>Subtotal</span><strong>{money(total)}</strong></div><div className="shipping-line"><span>Domicilio</span><strong className={total>=brand.freeDeliveryMin?'free':''}>{total>=brand.freeDeliveryMin?'Gratis':'Se confirma por WhatsApp'}</strong></div><button className="primary" disabled={!cart.length} onClick={onCheckout}>Revisar pedido <ArrowRight size={17}/></button><small className="safe-note"><ShieldCheck size={13}/> Sin registro obligatorio · confirmación directa</small></footer></aside></div>
 }
 
-function ProductModal({ item, onClose, onAdd }) {
-  const [qty, setQty] = useState(1);
-  if (!item) return null;
-  return (
-    <div className="modal-backdrop" onMouseDown={onClose}>
-      <section className="product-modal" onMouseDown={(e)=>e.stopPropagation()}>
-        <button className="circle-btn modal-close" onClick={onClose}><Icon name="close"/></button>
-        <div className="modal-media"><div className="modal-halo"/><img src={item.image} alt={item.name}/></div>
-        <div className="modal-body"><span className="eyebrow">{item.category}</span><div className="modal-title"><h2>{item.name}</h2><strong>{money(item.price)}</strong></div><p>{item.description}</p><div className="quality-row"><span>✦ Preparado al momento</span><span>✦ Ingredientes frescos</span><span>✦ Sabor de casa</span></div><div className="qty-row"><span>Cantidad</span><div className="qty"><button onClick={()=>setQty(Math.max(1,qty-1))}>−</button><strong>{qty}</strong><button onClick={()=>setQty(qty+1)}>+</button></div></div><div className="delivery-note"><Icon name="truck"/><div><strong>Domicilio gratis desde {money(brand.freeDeliveryMin)}</strong><small>El carrito te avisa cuánto falta para activarlo.</small></div></div><button className="primary" onClick={()=>{onAdd(item,qty);onClose();}}>Añadir {qty} · {money(item.price*qty)}</button></div>
-      </section>
-    </div>
-  );
-}
-
-function CartDrawer({ cart, onClose, onQty, onCheckout }) {
-  const total = cart.reduce((sum,row)=>sum+row.product.price*row.qty,0);
-  const missing = Math.max(0, brand.freeDeliveryMin-total);
-  const progress = Math.min(100, (total/brand.freeDeliveryMin)*100);
-  return (
-    <div className="modal-backdrop drawer-backdrop" onMouseDown={onClose}>
-      <aside className="cart-drawer" onMouseDown={(e)=>e.stopPropagation()}>
-        <header><div><span className="eyebrow">PASO 1 · TU PEDIDO</span><h2>Carrito</h2></div><button className="circle-btn" onClick={onClose}>×</button></header>
-        <div className="delivery-meter"><div><Icon name="truck"/><span>{missing === 0 ? <><strong>Domicilio gratis activado</strong><small>Tu pedido ya supera el mínimo.</small></> : <><strong>Te faltan {money(missing)}</strong><small>para domicilio gratis desde {money(brand.freeDeliveryMin)}.</small></>}</span></div><i><b style={{width:`${progress}%`}}/></i></div>
-        <div className="cart-list">{cart.length===0 && <div className="empty"><span>🍽️</span><h3>Tu carrito está esperando</h3><p>Agrega tus favoritos y te guiamos hasta WhatsApp.</p></div>}{cart.map((row)=><div className="cart-row" key={row.product.id}><img src={row.product.image} alt=""/><div className="cart-row-copy"><strong>{row.product.name}</strong><span>{money(row.product.price*row.qty)}</span></div><div className="qty small"><button onClick={()=>onQty(row.product.id,-1)}>−</button><b>{row.qty}</b><button onClick={()=>onQty(row.product.id,1)}>+</button></div></div>)}</div>
-        <footer><div className="shipping-line"><span>Subtotal</span><strong>{money(total)}</strong></div><div className="shipping-line"><span>Domicilio</span><strong className={total>=brand.freeDeliveryMin?'free':''}>{total>=brand.freeDeliveryMin?'Gratis':'Se confirma por WhatsApp'}</strong></div><button className="primary" disabled={!cart.length} onClick={onCheckout}>Revisar pedido <Icon name="arrow"/></button><small className="safe-note">Sin registro obligatorio · confirmación directa por WhatsApp</small></footer>
-      </aside>
-    </div>
-  );
-}
-
-function Checkout({ cart, onClose, onFinish }) {
-  const [step,setStep] = useState('review');
-  const [method,setMethod] = useState('cash');
-  const [form,setForm] = useState({name:'',phone:'',address:'',reference:'',notes:''});
-  const [orderId] = useState(()=>`SS-${Math.floor(4000+Math.random()*5000)}`);
-  const total = cart.reduce((sum,row)=>sum+row.product.price*row.qty,0);
-  const free = total >= brand.freeDeliveryMin;
-  const steps = ['review','form','payment','ready'];
-  const current = steps.indexOf(step);
-  const update = (key,value)=>setForm((old)=>({...old,[key]:value}));
-  const waUrl = () => {
-    const lines = cart.map((row)=>`• ${row.qty} x ${row.product.name} — ${money(row.product.price*row.qty)}`).join('\n');
-    const methodText = method==='cash'?'Efectivo al recibir':method==='transfer'?'Transferencia':'Solicitar link de pago con tarjeta';
-    const message = `Hola Sazón y Sabor 👋\nQuiero confirmar el pedido *${orderId}*:\n\n${lines}\n\n*Subtotal:* ${money(total)}\n*Domicilio:* ${free?'GRATIS':'por confirmar'}\n*Método de pago:* ${methodText}\n\n*Datos de entrega*\nNombre: ${form.name}\nTeléfono: ${form.phone}\nDirección: ${form.address}\nReferencia: ${form.reference||'-'}\nComentarios: ${form.notes||'-'}\n\n¿Me confirman disponibilidad y tiempo de entrega?`;
-    return `https://wa.me/${brand.phone.replace(/\D/g,'')}?text=${encodeURIComponent(message)}`;
-  };
-  const sendWhatsApp = () => { const url=waUrl(); window.open(url,'_blank','noopener,noreferrer'); setStep('ready'); };
-
-  if (step==='ready') return <div className="checkout-page ready-page"><div className="status-icon ok">✓</div><span className="eyebrow">PEDIDO {orderId}</span><h2>Listo para<br/>confirmar</h2><p>El pedido quedó preparado con productos, dirección y método de pago. WhatsApp es el último paso para confirmar disponibilidad y tiempo de entrega.</p><div className="status-order"><span>Total</span><strong>{money(total)}</strong></div><button className="primary" onClick={()=>window.open(waUrl(),'_blank','noopener,noreferrer')}><Icon name="whatsapp"/> Abrir WhatsApp otra vez</button><button className="secondary" onClick={onFinish}>Seguir comprando</button></div>;
-
-  return (
-    <div className="checkout-shell">
-      <header className="checkout-head"><button className="checkout-back" onClick={()=> current>0 ? setStep(steps[current-1]) : onClose()}><Icon name="back"/> Volver</button><img src={brand.logo} alt="Sazón y Sabor"/><button className="circle-btn" onClick={onClose}>×</button></header>
-      <div className="stepper">{steps.map((s,i)=><span key={s} className={i===current?'active':i<current?'done':''}>{i<current?'✓':i+1}<small>{['Pedido','Entrega','Pago','WhatsApp'][i]}</small>{i<steps.length-1 && <i/>}</span>)}</div>
-
-      {step==='review' && <div className="checkout-content"><span className="eyebrow">REVISA ANTES DE CONTINUAR</span><h2>Tu pedido</h2><div className="review-list">{cart.map((row)=><div className="review-row" key={row.product.id}><img src={row.product.image} alt=""/><div><strong>{row.product.name}</strong><small>{row.qty} unidad{row.qty>1?'es':''}</small></div><b>{money(row.product.price*row.qty)}</b></div>)}</div><div className="order-mini"><div><span>Subtotal</span><b>{money(total)}</b></div><div><span>Domicilio</span><b className={free?'free':''}>{free?'Gratis':'Por confirmar'}</b></div><div className="total"><span>Total de productos</span><strong>{money(total)}</strong></div></div><div className="delivery-note"><Icon name="truck"/><div><strong>{free?'Ya tienes domicilio gratis':`Domicilio gratis desde ${money(brand.freeDeliveryMin)}`}</strong><small>{free?'Puedes continuar con tus datos de entrega.':`Te faltan ${money(Math.max(0,brand.freeDeliveryMin-total))} para activarlo.`}</small></div></div><button className="primary" onClick={()=>setStep('form')}>Continuar con entrega <Icon name="arrow"/></button></div>}
-
-      {step==='form' && <div className="checkout-content"><span className="eyebrow">PASO 2 · ENTREGA</span><h2>¿Dónde lo llevamos?</h2><p className="step-copy">Solo pedimos lo necesario para preparar el mensaje de confirmación.</p><form className="delivery-form" onSubmit={(e)=>{e.preventDefault();setStep('payment');}}><label><span>Nombre completo</span><input required value={form.name} onChange={(e)=>update('name',e.target.value)} placeholder="Tu nombre" autoComplete="name"/></label><label><span>Teléfono</span><input required type="tel" value={form.phone} onChange={(e)=>update('phone',e.target.value)} placeholder="+56 9 ..." autoComplete="tel"/></label><label><span>Dirección de entrega</span><input required value={form.address} onChange={(e)=>update('address',e.target.value)} placeholder="Calle, número, comuna" autoComplete="street-address"/></label><label><span>Referencia</span><input value={form.reference} onChange={(e)=>update('reference',e.target.value)} placeholder="Casa, depto, portón..."/></label><label><span>Comentarios del pedido</span><textarea value={form.notes} onChange={(e)=>update('notes',e.target.value)} placeholder="Sin tomate, más mayo, tocar timbre..."/></label><button className="primary">Elegir método de pago <Icon name="arrow"/></button></form></div>}
-
-      {step==='payment' && <div className="checkout-content"><span className="eyebrow">PASO 3 · PAGO</span><h2>¿Cómo pagarás?</h2><p className="step-copy">No simulamos cobros. Si eliges tarjeta, Sazón y Sabor coordina el enlace de pago contigo por WhatsApp.</p><button className={`payment-card ${method==='cash'?'selected':''}`} onClick={()=>setMethod('cash')}><span className="pay-icon">▤</span><div><strong>Efectivo al recibir</strong><small>Confirma tu pedido y paga en la entrega.</small></div><i/></button><button className={`payment-card ${method==='transfer'?'selected':''}`} onClick={()=>setMethod('transfer')}><span className="pay-icon">↗</span><div><strong>Transferencia</strong><small>Solicita los datos de transferencia por WhatsApp.</small></div><i/></button><button className={`payment-card ${method==='card'?'selected':''}`} onClick={()=>setMethod('card')}><span className="pay-icon">▣</span><div><strong>Tarjeta</strong><small>Solicita un link de pago seguro por WhatsApp.</small></div><i/></button><div className="order-mini compact"><div className="total"><span>Total productos</span><strong>{money(total)}</strong></div></div><button className="primary whatsapp-cta" onClick={sendWhatsApp}><Icon name="whatsapp"/> Preparar pedido en WhatsApp</button><small className="safe-note center">Se abrirá WhatsApp con tu pedido listo para enviar. Tú decides cuándo enviarlo.</small></div>}
-    </div>
-  );
+function Checkout({cart,onClose,onFinish}){
+ const [step,setStep]=useState('review'),[method,setMethod]=useState('cash'),[form,setForm]=useState({name:'',phone:'',address:'',reference:'',notes:''}),[orderId]=useState(()=>`SS-${Math.floor(4000+Math.random()*5000)}`);
+ const total=cart.reduce((s,r)=>s+r.product.price*r.qty,0),free=total>=brand.freeDeliveryMin,steps=['review','form','payment','ready'],current=steps.indexOf(step),update=(k,v)=>setForm(o=>({...o,[k]:v}));
+ const waUrl=()=>{const lines=cart.map(r=>`• ${r.qty} x ${r.product.name} — ${money(r.product.price*r.qty)}`).join('\n'),m=method==='cash'?'Efectivo al recibir':method==='transfer'?'Transferencia':'Solicitar link de pago con tarjeta',msg=`Hola Sazón y Sabor 👋\nQuiero confirmar el pedido *${orderId}*:\n\n${lines}\n\n*Subtotal:* ${money(total)}\n*Domicilio:* ${free?'GRATIS':'por confirmar'}\n*Método de pago:* ${m}\n\n*Datos de entrega*\nNombre: ${form.name}\nTeléfono: ${form.phone}\nDirección: ${form.address}\nReferencia: ${form.reference||'-'}\nComentarios: ${form.notes||'-'}\n\n¿Me confirman disponibilidad y tiempo de entrega?`;return `https://wa.me/${brand.phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`};
+ const send=()=>{window.open(waUrl(),'_blank','noopener,noreferrer');setStep('ready')};
+ if(step==='ready')return <div className="checkout-page ready-page"><div className="status-icon ok"><Check size={28}/></div><span className="eyebrow">PEDIDO {orderId}</span><h2>Listo para<br/>confirmar.</h2><p>Tu pedido ya tiene productos, dirección y método de pago. WhatsApp es el último paso.</p><div className="status-order"><span>Total</span><strong>{money(total)}</strong></div><button className="primary whatsapp-cta" onClick={()=>window.open(waUrl(),'_blank','noopener,noreferrer')}><MessageCircle size={18}/> Abrir WhatsApp</button><button className="secondary" onClick={onFinish}>Seguir comprando</button></div>;
+ return <div className="checkout-shell"><header className="checkout-head"><button className="checkout-back" onClick={()=>current>0?setStep(steps[current-1]):onClose()}><ArrowLeft size={16}/> Volver</button><img src={brand.logo} alt="Sazón y Sabor"/><button className="circle-btn" onClick={onClose}><X size={17}/></button></header><div className="stepper">{steps.map((s,i)=><span key={s} className={i===current?'active':i<current?'done':''}>{i<current?<Check size={13}/>:i+1}<small>{['Pedido','Entrega','Pago','WhatsApp'][i]}</small>{i<steps.length-1&&<i/>}</span>)}</div>
+ {step==='review'&&<div className="checkout-content"><span className="eyebrow">REVISA ANTES DE CONTINUAR</span><h2>Tu pedido.</h2><div className="review-list">{cart.map(r=><div className="review-row" key={r.product.id}><span className="review-thumb"><img src={r.product.image} alt=""/></span><div><strong>{r.product.name}</strong><small>{r.qty} unidad{r.qty>1?'es':''}</small></div><b>{money(r.product.price*r.qty)}</b></div>)}</div><div className="order-mini"><div><span>Subtotal</span><b>{money(total)}</b></div><div><span>Domicilio</span><b className={free?'free':''}>{free?'Gratis':'Por confirmar'}</b></div><div className="total"><span>Total de productos</span><strong>{money(total)}</strong></div></div><div className="delivery-note"><Truck size={18}/><div><strong>{free?'Ya tienes domicilio gratis':`Domicilio gratis desde ${money(brand.freeDeliveryMin)}`}</strong><small>{free?'Puedes continuar con tus datos.':`Te faltan ${money(Math.max(0,brand.freeDeliveryMin-total))}.`}</small></div></div><button className="primary" onClick={()=>setStep('form')}>Continuar con entrega <ArrowRight size={17}/></button></div>}
+ {step==='form'&&<div className="checkout-content"><span className="eyebrow">PASO 2 · ENTREGA</span><h2>¿Dónde lo llevamos?</h2><p className="step-copy">Solo pedimos lo necesario para confirmar el pedido.</p><form className="delivery-form" onSubmit={e=>{e.preventDefault();setStep('payment')}}><label><span>Nombre completo</span><input required value={form.name} onChange={e=>update('name',e.target.value)} placeholder="Tu nombre"/></label><label><span>Teléfono</span><input required type="tel" value={form.phone} onChange={e=>update('phone',e.target.value)} placeholder="+56 9 ..."/></label><label><span>Dirección de entrega</span><input required value={form.address} onChange={e=>update('address',e.target.value)} placeholder="Calle, número, comuna"/></label><label><span>Referencia</span><input value={form.reference} onChange={e=>update('reference',e.target.value)} placeholder="Casa, depto, portón..."/></label><label><span>Comentarios</span><textarea value={form.notes} onChange={e=>update('notes',e.target.value)} placeholder="Sin tomate, más mayo..."/></label><button className="primary">Elegir método de pago <ArrowRight size={17}/></button></form></div>}
+ {step==='payment'&&<div className="checkout-content"><span className="eyebrow">PASO 3 · PAGO</span><h2>¿Cómo pagarás?</h2><p className="step-copy">No simulamos cobros. La confirmación final se realiza por WhatsApp.</p><button className={`payment-card ${method==='cash'?'selected':''}`} onClick={()=>setMethod('cash')}><span className="pay-icon"><Banknote size={21}/></span><div><strong>Efectivo al recibir</strong><small>Paga en la entrega.</small></div><i/></button><button className={`payment-card ${method==='transfer'?'selected':''}`} onClick={()=>setMethod('transfer')}><span className="pay-icon"><Landmark size={21}/></span><div><strong>Transferencia</strong><small>Solicita los datos por WhatsApp.</small></div><i/></button><button className={`payment-card ${method==='card'?'selected':''}`} onClick={()=>setMethod('card')}><span className="pay-icon"><WalletCards size={21}/></span><div><strong>Tarjeta</strong><small>Solicita un link de pago seguro.</small></div><i/></button><div className="order-mini compact"><div className="total"><span>Total productos</span><strong>{money(total)}</strong></div></div><button className="primary whatsapp-cta" onClick={send}><MessageCircle size={18}/> Preparar pedido en WhatsApp</button><small className="safe-note center"><ShieldCheck size={13}/> Tú decides cuándo enviar el mensaje.</small></div>}</div>
 }
 
 export default function Home(){
-  const [loaded,setLoaded]=useState(false);
-  const [active,setActive]=useState('Todos');
-  const [query,setQuery]=useState('');
-  const [selected,setSelected]=useState(null);
-  const [cart,setCart]=useState([]);
-  const [cartOpen,setCartOpen]=useState(false);
-  const [checkout,setCheckout]=useState(false);
-  const [promoIndex,setPromoIndex]=useState(0);
-  const [scene,setScene]=useState(SCENES.inicio);
-
-  useEffect(()=>{
-    const nodes=[...document.querySelectorAll('[data-scene]')];
-    const observer=new IntersectionObserver((entries)=>{const visible=entries.filter((e)=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(visible){const next=SCENES[visible.target.dataset.scene];if(next)setScene(next);}}, {threshold:[.2,.42,.62],rootMargin:'-10% 0px -25%'});
-    nodes.forEach((n)=>observer.observe(n));
-    return ()=>observer.disconnect();
-  },[loaded]);
-
-  const visible=useMemo(()=>products.filter((item)=>(active==='Todos'||item.category===active)&&`${item.name} ${item.description}`.toLowerCase().includes(query.toLowerCase())),[active,query]);
-  const count=cart.reduce((sum,row)=>sum+row.qty,0);
-  const add=(product,qty=1)=>setCart((rows)=>{const hit=rows.find((r)=>r.product.id===product.id);return hit?rows.map((r)=>r.product.id===product.id?{...r,qty:r.qty+qty}:r):[...rows,{product,qty}]});
-  const changeQty=(id,delta)=>setCart((rows)=>rows.map((r)=>r.product.id===id?{...r,qty:r.qty+delta}:r).filter((r)=>r.qty>0));
-
-  if(!loaded) return <Loader onDone={()=>setLoaded(true)}/>;
-  if(checkout) return <Checkout cart={cart} onClose={()=>setCheckout(false)} onFinish={()=>{setCheckout(false);setCart([])}}/>;
-
-  return <main className="app-shell app-reveal"><SceneBackground scene={scene}/>
-    <header className="topbar"><a className="brand" href="#inicio"><img src={brand.logo} alt="Sazón y Sabor"/></a><nav><a href="#promos">Promos</a><a href="#catalogo">Menú</a><a href="#historia">Nosotros</a><a href="#contacto">Contacto</a></nav><div className="top-actions"><button className="circle-btn search-mobile" onClick={()=>document.querySelector('#search')?.focus()}><Icon name="search"/></button><button className="cart-trigger" onClick={()=>setCartOpen(true)}><Icon name="cart"/><b>{count}</b></button></div></header>
-
-    <section className="hero scene-section" id="inicio" data-scene="inicio"><div className="hero-copy"><span className="eyebrow">CHILE · COLOMBIA · EN LA CASA</span><h1>Sabor <em>que se mueve.</em></h1><p>Completos, churrascos, arepas, chorrillanas y papas presentados como protagonistas: comida real, fondo translúcido y una experiencia que te guía hasta confirmar el pedido.</p><div className="hero-actions"><a className="primary link" href="#catalogo">Explorar menú <Icon name="arrow"/></a><button className="secondary" onClick={()=>setCartOpen(true)}>Ver mi pedido</button></div><div className="free-delivery"><Icon name="truck"/><span><strong>Domicilio gratis desde {money(brand.freeDeliveryMin)}</strong><small>{brand.address}</small></span></div></div><div className="hero-food"><div className="orbit orbit-1"/><div className="orbit orbit-2"/><img src={visuals.seleccion} alt="Selección Sazón y Sabor"/><span className="script">Más que comida, un buen momento</span></div></section>
-
-    <section className="promos-section scene-section" id="promos" data-scene="promos"><div className="section-head"><div><span className="eyebrow">PROMOCIONES</span><h2>Combos que<br/>entran por los ojos</h2></div><div className="promo-arrows"><button onClick={()=>setPromoIndex((promoIndex-1+promotions.length)%promotions.length)}>←</button><button onClick={()=>setPromoIndex((promoIndex+1)%promotions.length)}>→</button></div></div><div className="promo-stage"><div className="promo-media"><span className="promo-halo"/><img src={promotions[promoIndex].image} alt={promotions[promoIndex].title}/></div><div><span className="promo-counter">{String(promoIndex+1).padStart(2,'0')} / {promotions.length}</span><h3>{promotions[promoIndex].title}</h3><strong>{money(promotions[promoIndex].price)}</strong><p>Visual 3D sin fondo, integrado sobre vidrio translúcido para que cada promoción respire dentro de la marca.</p><button className="secondary promo-add" onClick={()=>{const fallback=products.find((p)=>p.popular)||products[0];add(fallback);setCartOpen(true)}}>Agregar un favorito al pedido</button></div></div></section>
-
-    <section className="catalog scene-section" id="catalogo" data-scene="catalogo"><div className="section-head catalog-head"><div><span className="eyebrow">MENÚ COMPLETO</span><h2>Elige. Mira.<br/>Añade.</h2></div><label className="searchbox"><Icon name="search"/><input id="search" value={query} onChange={(e)=>setQuery(e.target.value)} placeholder="Buscar completo, arepa, churrasco..."/></label></div><div className="filters">{categories.map((c)=><button key={c} className={active===c?'active':''} onClick={()=>setActive(c)}>{c}</button>)}</div><div className="product-grid">{visible.map((item)=><ProductCard key={item.id} item={item} onOpen={setSelected} onAdd={add}/>)}</div>{!visible.length&&<div className="no-results">No encontramos productos con esa búsqueda.</div>}</section>
-
-    <section className="story scene-section" id="historia" data-scene="historia"><div><span className="eyebrow">UNA COMPRA SIN FRICCIÓN</span><h2>Del antojo<br/>a WhatsApp.</h2></div><p>Ahora el recorrido tiene un orden claro: eliges el producto, revisas tu carrito, confirmas la entrega, seleccionas cómo pagar y recibes el pedido armado en WhatsApp. Sin pantallas falsas de cobro y sin perder el contexto.</p><div className="journey"><span><b>01</b>Explora</span><span><b>02</b>Carrito</span><span><b>03</b>Entrega</span><span><b>04</b>Pago</span><span><b>05</b>WhatsApp</span></div></section>
-
-    <footer className="scene-section" id="contacto" data-scene="contacto"><img src={brand.logo} alt="Sazón y Sabor"/><div><strong>{brand.address}</strong><a href={`tel:${brand.phone}`}>{brand.phone}</a><a href={`https://instagram.com/${brand.instagram.replace('@','')}`} target="_blank" rel="noreferrer">{brand.instagram}</a></div><span>Chile Colombia en la Casa</span></footer>
-
-    <button className={`floating-cart ${count?'has-items':''}`} onClick={()=>setCartOpen(true)}><Icon name="cart"/><span>{count}</span><b>{count?'Revisar pedido':'Carrito'}</b></button>
-    {selected&&<ProductModal item={selected} onClose={()=>setSelected(null)} onAdd={add}/>} 
-    {cartOpen&&<CartDrawer cart={cart} onClose={()=>setCartOpen(false)} onQty={changeQty} onCheckout={()=>{setCartOpen(false);setCheckout(true)}}/>}
-  </main>;
+ const [loaded,setLoaded]=useState(false),[active,setActive]=useState('Todos'),[query,setQuery]=useState(''),[selected,setSelected]=useState(null),[cart,setCart]=useState([]),[cartOpen,setCartOpen]=useState(false),[checkout,setCheckout]=useState(false),[promoIndex,setPromoIndex]=useState(0),[scene,setScene]=useState(SCENES.inicio),[menuOpen,setMenuOpen]=useState(false);
+ useEffect(()=>{const nodes=[...document.querySelectorAll('[data-scene]')],o=new IntersectionObserver(es=>{const v=es.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(v&&SCENES[v.target.dataset.scene])setScene(SCENES[v.target.dataset.scene])},{threshold:[.2,.42,.62],rootMargin:'-10% 0px -25%'});nodes.forEach(n=>o.observe(n));return()=>o.disconnect()},[loaded]);
+ const visible=useMemo(()=>products.filter(i=>(active==='Todos'||i.category===active)&&`${i.name} ${i.description}`.toLowerCase().includes(query.toLowerCase())),[active,query]),count=cart.reduce((s,r)=>s+r.qty,0);
+ const add=(product,qty=1)=>setCart(rows=>{const hit=rows.find(r=>r.product.id===product.id);return hit?rows.map(r=>r.product.id===product.id?{...r,qty:r.qty+qty}:r):[...rows,{product,qty}]}),changeQty=(id,d)=>setCart(rows=>rows.map(r=>r.product.id===id?{...r,qty:r.qty+d}:r).filter(r=>r.qty>0)),scrollTo=id=>document.querySelector(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+ if(!loaded)return <Loader onDone={()=>setLoaded(true)}/>;if(checkout)return <Checkout cart={cart} onClose={()=>setCheckout(false)} onFinish={()=>{setCheckout(false);setCart([])}}/>;
+ return <main className="app-shell app-reveal"><SceneBackground scene={scene}/><header className="topbar-wrap"><div className="topbar"><a className="brand" href="#inicio"><img src={brand.logo} alt="Sazón y Sabor"/></a><nav className={menuOpen?'open':''}><a href="#promos" onClick={()=>setMenuOpen(false)}>Promos</a><a href="#catalogo" onClick={()=>setMenuOpen(false)}>Menú</a><a href="#historia" onClick={()=>setMenuOpen(false)}>Cómo comprar</a><a href="#contacto" onClick={()=>setMenuOpen(false)}>Contacto</a></nav><div className="top-actions"><button className="circle-btn menu-trigger" onClick={()=>setMenuOpen(v=>!v)}><Menu size={18}/></button><button className="circle-btn search-trigger" onClick={()=>{scrollTo('#catalogo');setTimeout(()=>document.querySelector('#search')?.focus(),450)}}><Search size={18}/></button><button className="cart-trigger" onClick={()=>setCartOpen(true)}><ShoppingBag size={18}/><span>Pedido</span><b>{count}</b></button></div></div></header>
+ <section className="hero scene-section" id="inicio" data-scene="inicio"><div className="hero-copy"><span className="eyebrow"><Sparkles size={12}/> COCINA CHILENA + COLOMBIANA</span><h1>Se ve bien.<br/><em>Sabe mejor.</em></h1><p>Un menú visual, simple y rápido: eliges, revisas tu pedido y lo confirmas por WhatsApp sin pasos innecesarios.</p><div className="hero-actions"><a className="primary link" href="#catalogo">Ver menú <ArrowRight size={17}/></a><button className="secondary" onClick={()=>setCartOpen(true)}><ShoppingBag size={16}/> Mi pedido</button></div><div className="hero-microcopy"><ShieldCheck size={15}/> Sin registro · confirmación directa</div></div><div className="hero-visual"><div className="hero-visual-panel"><div className="hero-panel-head"><span>Favorito de la casa</span><b>01</b></div><div className="hero-food-shell"><span className="hero-food-glow"/><img className="hero-main-food" src={visuals.churrasco} alt="Churrasco Italiano"/></div><div className="hero-product-caption"><div><small>CHURRASCO ITALIANO</small><strong>{money(4500)}</strong></div><span>Carne · palta · tomate · mayo</span></div></div><div className="hero-mini-products">{[visuals.completo,visuals.arepa,visuals.papas].map((img,i)=><span key={img}><img src={img} alt=""/><b>0{i+2}</b></span>)}</div></div></section>
+ <BenefitStrip/>
+ <section className="promos-section scene-section" id="promos" data-scene="promos"><div className="section-head"><div><span className="eyebrow">PROMOCIONES</span><h2>Una promo.<br/>Un protagonista.</h2></div><div className="promo-arrows"><button onClick={()=>setPromoIndex((promoIndex-1+promotions.length)%promotions.length)}><ChevronLeft size={19}/></button><button onClick={()=>setPromoIndex((promoIndex+1)%promotions.length)}><ChevronRight size={19}/></button></div></div><div className="promo-stage"><div className="promo-media"><span className="promo-halo"/><img src={promotions[promoIndex].image} alt={promotions[promoIndex].title}/></div><div className="promo-copy"><span className="promo-counter">{String(promoIndex+1).padStart(2,'0')} / {String(promotions.length).padStart(2,'0')}</span><h3>{promotions[promoIndex].title}</h3><strong>{money(promotions[promoIndex].price)}</strong><p>Producto sin fondo, jerarquía limpia y una sola acción para seguir comprando.</p><button className="primary dark" onClick={()=>scrollTo('#catalogo')}>Explorar productos <ArrowRight size={17}/></button></div></div></section>
+ <section className="catalog scene-section" id="catalogo" data-scene="catalogo"><div className="section-head catalog-head"><div><span className="eyebrow">MENÚ COMPLETO</span><h2>Encuentra tu<br/>próximo antojo.</h2></div><label className="searchbox"><Search size={17}/><input id="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Buscar completo, arepa, churrasco..."/><kbd>{visible.length}</kbd></label></div><div className="filters">{categories.map(c=><button key={c} className={active===c?'active':''} onClick={()=>setActive(c)}>{c}</button>)}</div><div className="product-grid">{visible.map((item,index)=><ProductCard key={item.id} item={item} index={index} onOpen={setSelected} onAdd={add}/>)}</div>{!visible.length&&<div className="no-results"><Search size={27}/><strong>No encontramos ese producto</strong><span>Prueba otra búsqueda.</span></div>}</section>
+ <section className="story scene-section" id="historia" data-scene="historia"><div className="story-copy"><span className="eyebrow">UNA COMPRA SIN FRICCIÓN</span><h2>Del antojo<br/>a WhatsApp.</h2><p>Una sola decisión por pantalla: elegir, revisar, completar entrega, escoger pago y confirmar.</p></div><div className="journey">{[['01','Explora',UtensilsCrossed,'Mira producto, precio y detalle.'],['02','Carrito',ShoppingBag,'Ajusta cantidades y total.'],['03','Entrega',MapPin,'Completa solo lo necesario.'],['04','Pago',CreditCard,'Elige cómo pagar.'],['05','WhatsApp',MessageCircle,'Pedido listo para enviar.']].map(([n,t,C,c])=><article key={n}><span>{n}</span><i><C size={19}/></i><div><strong>{t}</strong><small>{c}</small></div></article>)}</div></section>
+ <footer className="scene-section" id="contacto" data-scene="contacto"><div className="footer-brand"><img src={brand.logo} alt="Sazón y Sabor"/><p>Chile Colombia en la Casa.</p></div><div className="footer-links"><span><MapPin size={15}/> {brand.address}</span><a href={`tel:${brand.phone}`}><Phone size={15}/> {brand.phone}</a><a href={`https://instagram.com/${brand.instagram.replace('@','')}`} target="_blank" rel="noreferrer">Instagram · {brand.instagram}</a></div><a className="footer-wa" href={`https://wa.me/${brand.phone.replace(/\D/g,'')}`} target="_blank" rel="noreferrer"><MessageCircle size={17}/> Hablar por WhatsApp</a></footer>
+ <button className={`floating-cart ${count?'has-items':''}`} onClick={()=>setCartOpen(true)}><ShoppingBag size={17}/><span>{count}</span><b>{count?'Revisar pedido':'Carrito'}</b></button>{selected&&<ProductModal item={selected} onClose={()=>setSelected(null)} onAdd={add}/>} {cartOpen&&<CartDrawer cart={cart} onClose={()=>setCartOpen(false)} onQty={changeQty} onCheckout={()=>{setCartOpen(false);setCheckout(true)}}/>}</main>
 }
