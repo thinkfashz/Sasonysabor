@@ -23,7 +23,6 @@ import {
   Tag,
   Trash2,
   Truck,
-  UserRound,
   UtensilsCrossed,
 } from 'lucide-react';
 import { brand, categories, products, promotions, visuals } from '@/data/menu';
@@ -67,8 +66,8 @@ function BottomNav({ screen, onNavigate, cartCount }) {
     [FLOW_SCREENS.HOME, Home, 'Inicio'],
     [FLOW_SCREENS.CATALOG, Search, 'Categorías'],
     ['promos', Tag, 'Promos'],
-    ['favorites', Heart, 'Favoritos'],
-    ['account', UserRound, 'Mi cuenta'],
+    ['cart', ShoppingBag, 'Pedido'],
+    ['contact', MessageCircle, 'Contacto'],
   ];
 
   return (
@@ -82,9 +81,7 @@ function BottomNav({ screen, onNavigate, cartCount }) {
         >
           <span className="ss-nav-icon">
             <Icon size={19} />
-            {id === FLOW_SCREENS.CATALOG && cartCount > 0 ? (
-              <i>{cartCount}</i>
-            ) : null}
+            {id === 'cart' && cartCount > 0 ? <i>{cartCount}</i> : null}
           </span>
           <small>{label}</small>
         </button>
@@ -96,7 +93,7 @@ function BottomNav({ screen, onNavigate, cartCount }) {
 function AppHeader({ cartCount, onCart, onMenu }) {
   return (
     <header className="ss-app-header">
-      <button className="ss-icon-button" type="button" onClick={onMenu} aria-label="Abrir menú">
+      <button className="ss-icon-button" type="button" onClick={onMenu} aria-label="Abrir catálogo">
         <Menu size={20} />
       </button>
       <img className="ss-header-logo" src={brand.logo} alt="Sazón y Sabor" />
@@ -136,7 +133,7 @@ function HomeScreen({ onBrowse, onCategory, onProduct, onAdd, onCart, cartCount 
 
   return (
     <section className="ss-screen ss-home-screen">
-      <AppHeader cartCount={cartCount} onCart={onCart} onMenu={() => {}} />
+      <AppHeader cartCount={cartCount} onCart={onCart} onMenu={onBrowse} />
 
       <div className="ss-home-hero">
         <div className="ss-logo-stage">
@@ -616,7 +613,7 @@ export default function MobileOrderingApp() {
   const [deliveryMode, setDeliveryMode] = useState('pickup');
   const [method, setMethod] = useState('whatsapp');
   const [form, setForm] = useState({ name: '', phone: '', address: '', commune: '', reference: '', notes: '' });
-  const [orderId] = useState(() => `SS-${Math.floor(1000 + Math.random() * 9000)}`);
+  const [orderId, setOrderId] = useState(() => `SS-${Math.floor(1000 + Math.random() * 9000)}`);
   const [lastWhatsAppUrl, setLastWhatsAppUrl] = useState('');
 
   const cartCount = cart.reduce((sum, line) => sum + line.quantity, 0);
@@ -627,25 +624,23 @@ export default function MobileOrderingApp() {
       if (!saved) return;
       const parsed = JSON.parse(saved);
       if (Date.now() - parsed.timestamp < 2 * 60 * 60 * 1000) {
+        setOrderId(parsed.orderId || orderId);
         setMethod(parsed.method || 'whatsapp');
         setLastWhatsAppUrl(parsed.url || '');
         setScreen(FLOW_SCREENS.SUCCESS);
       } else {
         sessionStorage.removeItem('ss-order-return');
       }
-    } catch {
-      sessionStorage.removeItem('ss-order-return');
-    }
+    } catch {}
   }, []);
 
   const addToCart = (product, selectedExtras = [], quantity = 1, notes = '') => {
-    const next = buildCartLine(product, selectedExtras, quantity);
-    next.notes = notes;
+    const next = buildCartLine(product, selectedExtras, quantity, notes);
     setCart((current) => {
-      const match = current.find((line) => line.lineId === next.lineId && line.notes === notes);
+      const match = current.find((line) => line.lineId === next.lineId);
       if (!match) return [...current, next];
       return current.map((line) =>
-        line.lineId === next.lineId && line.notes === notes
+        line.lineId === next.lineId
           ? { ...line, quantity: line.quantity + quantity }
           : line,
       );
@@ -687,7 +682,7 @@ export default function MobileOrderingApp() {
         ? 'Pago al retirar'
         : 'Confirmación por WhatsApp';
     const message = [
-      `Hola Sazón y Sabor 👋`,
+      'Hola Sazón y Sabor 👋',
       `Quiero confirmar el pedido *${orderId}*:`,
       '',
       lines,
@@ -725,6 +720,7 @@ export default function MobileOrderingApp() {
     setMethod('whatsapp');
     setSelectedProduct(null);
     setCatalogCategory('Todos');
+    setOrderId(`SS-${Math.floor(1000 + Math.random() * 9000)}`);
     setScreen(FLOW_SCREENS.HOME);
     try { sessionStorage.removeItem('ss-order-return'); } catch {}
   };
@@ -736,6 +732,8 @@ export default function MobileOrderingApp() {
       setCatalogCategory('Todos');
       setScreen(FLOW_SCREENS.CATALOG);
     }
+    if (destination === 'cart') setScreen(FLOW_SCREENS.CART);
+    if (destination === 'contact') window.location.href = `https://wa.me/${brand.phone.replace(/\D/g, '')}`;
   };
 
   return (
