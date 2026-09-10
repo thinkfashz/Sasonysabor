@@ -26,8 +26,8 @@ export const PRIMARY_CATEGORIES = [
 export const CHECKOUT_STEPS = [
   { id: FLOW_SCREENS.CART, label: 'Pedido' },
   { id: FLOW_SCREENS.DETAILS, label: 'Tus datos' },
-  { id: FLOW_SCREENS.PAYMENT, label: 'Pago' },
-  { id: FLOW_SCREENS.REVIEW, label: 'Confirmación' },
+  { id: FLOW_SCREENS.PAYMENT, label: 'Confirmación' },
+  { id: FLOW_SCREENS.REVIEW, label: 'Revisar' },
 ];
 
 export const formatMoney = (value) =>
@@ -61,10 +61,14 @@ export function getRelatedProducts(product, limit = 4) {
     .slice(0, limit);
 }
 
+function normalizeLineNote(notes = '') {
+  return notes.trim().toLocaleLowerCase('es-CL').replace(/\s+/g, ' ') || 'standard';
+}
+
 export function buildCartLine(product, selectedExtras = [], quantity = 1, notes = '') {
   const extraIds = selectedExtras.map((extra) => extra.id).sort();
-  const normalizedNote = notes.trim().toLowerCase().replace(/[^a-z0-9áéíóúüñ]+/gi, '-').slice(0, 32) || 'standard';
-  const lineId = [product.id, ...extraIds, normalizedNote].join('__');
+  const normalizedNote = normalizeLineNote(notes);
+  const lineId = [product.id, ...extraIds, encodeURIComponent(normalizedNote)].join('__');
   const extrasTotal = selectedExtras.reduce((sum, extra) => sum + extra.price, 0);
 
   return {

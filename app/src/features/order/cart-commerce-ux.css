@@ -1,0 +1,210 @@
+/* Cart commerce UX — explicit quantity and removal affordances.
+   Existing React state already supports +, - and removal at quantity 0.
+   This layer makes those actions obvious and thumb-friendly on mobile. */
+
+.ss-cart-lines{
+  gap:12px;
+}
+
+.ss-cart-lines:empty::before{
+  content:'Tu carrito está vacío. Vuelve al catálogo y agrega algo rico para continuar.';
+  display:block;
+  padding:24px 18px;
+  border:1px dashed rgba(246,201,104,.26);
+  border-radius:18px;
+  background:rgba(246,201,104,.045);
+  color:var(--ss-muted);
+  font-size:13px;
+  line-height:1.5;
+  text-align:center;
+}
+
+.ss-cart-lines article{
+  grid-template-columns:72px minmax(0,1fr) auto!important;
+  grid-template-areas:
+    'image copy total'
+    'image controls remove'!important;
+  gap:10px 12px!important;
+  min-height:118px!important;
+  padding:12px!important;
+  border-radius:20px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025))!important;
+}
+
+.ss-cart-lines article:focus-within{
+  border-color:rgba(246,201,104,.46)!important;
+  box-shadow:0 0 0 2px rgba(246,201,104,.08),0 14px 34px rgba(0,0,0,.2);
+}
+
+.ss-cart-lines article>img{
+  grid-area:image;
+  width:72px!important;
+  height:72px!important;
+  align-self:start;
+  border-radius:16px!important;
+  padding:4px;
+  background:radial-gradient(circle at 50% 45%,rgba(246,201,104,.12),transparent 65%),#140d09!important;
+}
+
+.ss-cart-line-copy{
+  grid-area:copy;
+  gap:4px!important;
+}
+
+.ss-cart-line-copy strong{
+  font-size:14px!important;
+  line-height:1.15;
+  color:var(--ss-cream);
+}
+
+.ss-cart-line-copy small{
+  font-size:10px!important;
+  line-height:1.35!important;
+}
+
+.ss-cart-line-copy b{
+  font-size:11px!important;
+  color:var(--ss-gold)!important;
+}
+
+.ss-line-total{
+  grid-area:total!important;
+  align-self:start;
+  font-size:14px!important;
+  color:var(--ss-gold-strong)!important;
+  white-space:nowrap;
+}
+
+.ss-cart-line-controls{
+  grid-area:controls;
+  display:grid!important;
+  grid-template-columns:auto 44px 36px 44px;
+  align-items:center;
+  justify-content:start;
+  gap:7px!important;
+}
+
+.ss-cart-line-controls::before{
+  content:'Cantidad';
+  color:var(--ss-muted);
+  font-size:10px;
+  font-weight:750;
+  margin-right:2px;
+}
+
+.ss-cart-line-controls button{
+  width:44px!important;
+  height:44px!important;
+  min-width:44px;
+  min-height:44px;
+  border-radius:14px!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+  transition:transform .15s ease,background .15s ease,border-color .15s ease;
+}
+
+.ss-cart-line-controls button:first-of-type{
+  background:rgba(215,25,32,.14)!important;
+  color:#ff7d82!important;
+  border-color:rgba(215,25,32,.3)!important;
+}
+
+.ss-cart-line-controls button:last-of-type{
+  background:linear-gradient(180deg,#e5232a,#a30f15)!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.12)!important;
+}
+
+.ss-cart-line-controls button:active{
+  transform:scale(.93);
+}
+
+.ss-cart-line-controls button:focus-visible,
+.ss-trash-button:focus-visible{
+  outline:2px solid var(--ss-gold);
+  outline-offset:2px;
+}
+
+.ss-cart-line-controls>strong{
+  min-width:36px!important;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--ss-line);
+  color:var(--ss-cream);
+  font-size:15px!important;
+}
+
+.ss-trash-button{
+  grid-area:remove;
+  position:static!important;
+  width:auto!important;
+  min-width:100px;
+  min-height:44px;
+  padding:0 13px!important;
+  border:1px solid rgba(215,25,32,.35)!important;
+  border-radius:14px!important;
+  background:rgba(215,25,32,.1)!important;
+  color:#ff8b90!important;
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  font-size:11px;
+  font-weight:850;
+  justify-self:end;
+}
+
+.ss-trash-button::after{
+  content:'Eliminar';
+}
+
+.ss-trash-button svg{
+  width:18px;
+  height:18px;
+}
+
+.ss-trash-button:active{
+  transform:scale(.96);
+  background:rgba(215,25,32,.18)!important;
+}
+
+.ss-cart-lines article::after{
+  content:'Usa − para reducir, + para añadir. Si bajas de 1, el producto se elimina.';
+  grid-column:1/-1;
+  color:#837a72;
+  font-size:9px;
+  line-height:1.35;
+  padding-top:2px;
+}
+
+@media (max-width:420px){
+  .ss-cart-lines article{
+    grid-template-columns:64px minmax(0,1fr)!important;
+    grid-template-areas:
+      'image copy'
+      'image total'
+      'controls controls'
+      'remove remove'!important;
+  }
+
+  .ss-cart-lines article>img{
+    width:64px!important;
+    height:64px!important;
+  }
+
+  .ss-line-total{
+    justify-self:start;
+  }
+
+  .ss-cart-line-controls{
+    width:100%;
+    grid-template-columns:1fr 44px 38px 44px;
+  }
+
+  .ss-trash-button{
+    width:100%!important;
+    justify-self:stretch;
+  }
+}
