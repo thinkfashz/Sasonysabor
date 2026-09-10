@@ -1,0 +1,682 @@
+/* Checkout v2 — readable mobile forms + explicit WhatsApp handoff lifecycle */
+
+.ss-checkout-screen{
+  --ss-form-border:rgba(255,216,143,.24);
+  --ss-form-surface:rgba(255,255,255,.052);
+  --ss-form-surface-active:rgba(246,201,104,.075);
+  padding-left:20px;
+  padding-right:20px;
+  padding-bottom:42px;
+}
+
+.ss-checkout-screen .ss-subpage-head{
+  min-height:54px;
+  margin-bottom:4px;
+}
+
+.ss-checkout-screen .ss-subpage-head small{
+  font-size:10px;
+  letter-spacing:.13em;
+}
+
+.ss-checkout-screen .ss-subpage-head strong{
+  font-size:15px;
+  color:var(--ss-cream);
+}
+
+.ss-checkout-screen .ss-stepper{
+  margin:10px 0 24px;
+  gap:6px;
+}
+
+.ss-checkout-screen .ss-stepper i{
+  width:32px;
+  height:32px;
+  font-size:10px;
+}
+
+.ss-checkout-screen .ss-stepper:before{
+  top:16px;
+}
+
+.ss-checkout-screen .ss-stepper small{
+  margin-top:2px;
+  font-size:8.5px;
+  font-weight:700;
+  color:#968b80;
+}
+
+.ss-checkout-copy{
+  margin-bottom:18px;
+}
+
+.ss-checkout-copy .ss-kicker{
+  font-size:10px;
+}
+
+.ss-checkout-copy h1{
+  margin-top:8px;
+  font-size:34px;
+  line-height:1.02;
+  color:#fff8e9;
+}
+
+.ss-checkout-copy>p{
+  max-width:390px;
+  font-size:13px;
+  line-height:1.55;
+  color:#c8baa9;
+}
+
+.ss-delivery-toggle{
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.ss-delivery-toggle button{
+  position:relative;
+  min-height:82px;
+  grid-template-columns:42px 1fr 24px;
+  gap:11px;
+  padding:13px 14px;
+  border-color:var(--ss-form-border);
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));
+}
+
+.ss-delivery-toggle button.selected{
+  border-color:rgba(241,69,73,.88);
+  background:linear-gradient(145deg,rgba(201,24,29,.25),rgba(255,255,255,.03));
+  box-shadow:0 12px 28px rgba(122,10,14,.18),inset 0 0 0 1px rgba(255,103,105,.08);
+}
+
+.ss-delivery-toggle button>svg{
+  width:26px;
+  height:26px;
+  justify-self:center;
+}
+
+.ss-delivery-toggle span{
+  gap:5px;
+}
+
+.ss-delivery-toggle strong{
+  font-size:14px;
+  line-height:1.15;
+}
+
+.ss-delivery-toggle small{
+  font-size:11px;
+  line-height:1.35;
+  color:#b9aa9c;
+}
+
+.ss-delivery-toggle i{
+  width:22px;
+  height:22px;
+}
+
+.ss-order-form{
+  gap:11px;
+}
+
+.ss-order-form label{
+  min-height:72px;
+  grid-template-columns:34px 1fr;
+  gap:10px;
+  align-items:center;
+  padding:11px 14px;
+  border-color:var(--ss-form-border);
+  border-radius:17px;
+  background:var(--ss-form-surface);
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+
+.ss-order-form label:focus-within{
+  border-color:rgba(246,201,104,.7);
+  background:var(--ss-form-surface-active);
+  box-shadow:0 0 0 3px rgba(246,201,104,.08);
+}
+
+.ss-order-form label>svg{
+  width:21px;
+  height:21px;
+  justify-self:center;
+}
+
+.ss-order-form label>span{
+  gap:5px;
+}
+
+.ss-order-form label small{
+  font-size:10px;
+  line-height:1.15;
+  color:#d0c1b0;
+  font-weight:760;
+  letter-spacing:.02em;
+}
+
+.ss-order-form input,
+.ss-order-form textarea{
+  min-height:29px;
+  font-size:16px;
+  line-height:1.35;
+  color:#fffaf0;
+  caret-color:var(--ss-gold);
+}
+
+.ss-order-form textarea{
+  min-height:62px;
+  padding-top:5px;
+}
+
+.ss-order-form input::placeholder,
+.ss-order-form textarea::placeholder{
+  color:#887c70;
+  opacity:1;
+}
+
+.ss-local-note{
+  min-height:76px;
+  border-radius:17px;
+  padding:12px 14px;
+}
+
+.ss-local-note strong{
+  font-size:13px;
+}
+
+.ss-local-note small{
+  margin-top:3px;
+  font-size:10px;
+  line-height:1.35;
+}
+
+.ss-payment-options{
+  gap:11px;
+}
+
+.ss-payment-options>button{
+  min-height:108px;
+  grid-template-columns:54px 1fr 30px;
+  gap:12px;
+  padding:14px;
+  border-color:var(--ss-form-border);
+  border-radius:19px;
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025));
+  transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+
+.ss-payment-options>button:active{
+  transform:scale(.988);
+}
+
+.ss-payment-options>button:focus-visible{
+  outline:3px solid rgba(246,201,104,.28);
+  outline-offset:2px;
+}
+
+.ss-payment-options>button.selected{
+  border-color:rgba(246,201,104,.78);
+  background:linear-gradient(145deg,rgba(246,201,104,.11),rgba(255,255,255,.025));
+  box-shadow:0 12px 30px rgba(0,0,0,.18),inset 0 0 0 1px rgba(246,201,104,.08);
+}
+
+.ss-payment-options>button.whatsapp.selected{
+  border-color:rgba(61,221,114,.8);
+  background:linear-gradient(145deg,rgba(20,148,65,.24),rgba(255,255,255,.025));
+}
+
+.ss-payment-icon{
+  width:52px;
+  height:52px;
+  border-radius:16px;
+}
+
+.ss-payment-options strong{
+  font-size:14px;
+  line-height:1.2;
+}
+
+.ss-payment-options b{
+  font-size:8px;
+  padding:5px 7px;
+}
+
+.ss-payment-options small{
+  margin-top:2px;
+  font-size:11px;
+  line-height:1.45;
+  color:#c1b2a2;
+}
+
+.ss-payment-options>button>i{
+  width:28px;
+  height:28px;
+}
+
+.ss-security-row{
+  gap:9px;
+  margin:16px 0;
+}
+
+.ss-security-row span{
+  min-height:62px;
+  padding:8px 5px;
+  border:1px solid rgba(255,255,255,.055);
+  border-radius:14px;
+  background:rgba(255,255,255,.022);
+}
+
+.ss-security-row small{
+  font-size:8.5px;
+}
+
+.ss-review-list article{
+  min-height:72px;
+  grid-template-columns:60px 1fr auto;
+  gap:11px;
+  padding:9px 0;
+}
+
+.ss-review-list img{
+  width:60px;
+  height:60px;
+}
+
+.ss-review-list strong{
+  font-size:12px;
+  line-height:1.2;
+}
+
+.ss-review-list small{
+  margin-top:2px;
+  font-size:10px;
+  line-height:1.35;
+}
+
+.ss-review-list article>b{
+  font-size:12px;
+}
+
+.ss-review-data{
+  gap:9px;
+  margin:15px 0;
+}
+
+.ss-review-data>span{
+  min-height:64px;
+  padding:11px 12px;
+  border-color:var(--ss-form-border);
+  border-radius:16px;
+  background:var(--ss-form-surface);
+}
+
+.ss-review-data small{
+  font-size:9px;
+}
+
+.ss-review-data strong{
+  margin-top:2px;
+  font-size:12px;
+  line-height:1.4;
+}
+
+.ss-total-card{
+  padding:14px;
+  border-color:var(--ss-form-border);
+  border-radius:18px;
+}
+
+.ss-total-card small{
+  font-size:10px;
+}
+
+.ss-total-card b{
+  font-size:12px;
+}
+
+.ss-total-card .total strong{
+  font-size:13px;
+}
+
+.ss-total-card .total b{
+  font-size:24px;
+}
+
+.ss-checkout-screen>.ss-primary-button,
+.ss-order-form>.ss-primary-button{
+  position:sticky;
+  bottom:10px;
+  z-index:18;
+  min-height:58px;
+  margin-top:4px;
+  border:1px solid rgba(255,255,255,.08);
+  font-size:14px;
+  box-shadow:0 15px 34px rgba(114,6,10,.38),inset 0 1px rgba(255,255,255,.18);
+}
+
+.ss-safe-copy{
+  font-size:9px;
+  line-height:1.35;
+}
+
+/* External handoff layer: this is the only intentional loading state. */
+.ss-handoff-layer{
+  position:fixed;
+  inset:0;
+  z-index:150;
+  display:grid;
+  place-items:center;
+  padding:max(18px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 50% 28%,rgba(175,17,22,.34),transparent 34%),
+    linear-gradient(180deg,rgba(5,4,4,.97),rgba(8,5,4,.995));
+  backdrop-filter:blur(12px);
+}
+
+.ss-handoff-card{
+  width:min(100%,430px);
+  max-height:calc(100svh - 36px);
+  overflow:auto;
+  border:1px solid rgba(246,201,104,.22);
+  border-radius:28px;
+  padding:26px 22px 22px;
+  text-align:center;
+  color:var(--ss-text);
+  background:
+    linear-gradient(180deg,rgba(87,11,13,.18),transparent 25%),
+    rgba(12,10,9,.97);
+  box-shadow:0 32px 90px rgba(0,0,0,.62),inset 0 1px rgba(255,255,255,.045);
+}
+
+.ss-handoff-card>img{
+  width:min(250px,76%);
+  height:88px;
+  object-fit:contain;
+  filter:drop-shadow(0 12px 22px rgba(0,0,0,.45));
+}
+
+.ss-handoff-card>span{
+  display:block;
+  margin-top:12px;
+  color:var(--ss-gold);
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.14em;
+}
+
+.ss-handoff-card h2{
+  margin:7px 0 8px;
+  color:#fff8e9;
+  font-size:30px;
+  line-height:1.04;
+  letter-spacing:-.035em;
+}
+
+.ss-handoff-card>p{
+  max-width:345px;
+  margin:0 auto 18px;
+  color:#c7b8a7;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.ss-handoff-spinner{
+  width:76px;
+  height:76px;
+  margin:12px auto 4px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#50eb86;
+  border:1px solid rgba(64,224,120,.32);
+  background:rgba(34,197,94,.08);
+  box-shadow:0 0 34px rgba(34,197,94,.12);
+}
+
+.ss-handoff-spinner svg{
+  animation:ssHandoffSpin 1.05s linear infinite;
+}
+
+.ss-handoff-progress{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin:4px 0 18px;
+  text-align:left;
+}
+
+.ss-handoff-progress>div{
+  min-height:58px;
+  display:grid;
+  grid-template-columns:34px 1fr;
+  gap:9px;
+  align-items:center;
+  padding:9px 11px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:15px;
+  color:#8d8278;
+  background:rgba(255,255,255,.025);
+}
+
+.ss-handoff-progress>div>svg{
+  justify-self:center;
+}
+
+.ss-handoff-progress>div>span{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.ss-handoff-progress strong{
+  color:#d3c7b9;
+  font-size:11px;
+}
+
+.ss-handoff-progress small{
+  color:#8e8278;
+  font-size:9px;
+  line-height:1.35;
+}
+
+.ss-handoff-progress .done{
+  color:var(--ss-gold);
+}
+
+.ss-handoff-progress .active{
+  border-color:rgba(48,217,105,.28);
+  color:#50eb86;
+  background:rgba(34,197,94,.055);
+}
+
+.ss-handoff-progress .active strong{
+  color:#effff4;
+}
+
+.ss-handoff-note{
+  display:block!important;
+  margin-top:12px!important;
+  color:#8f8378!important;
+  font-size:8.5px!important;
+  font-weight:500!important;
+  letter-spacing:0!important;
+  line-height:1.45;
+}
+
+.ss-return-layer{
+  background:
+    radial-gradient(circle at 50% 32%,rgba(34,197,94,.15),transparent 30%),
+    radial-gradient(circle at 50% 3%,rgba(184,20,25,.25),transparent 34%),
+    #070605;
+}
+
+.ss-return-check{
+  width:82px;
+  height:82px;
+  margin:13px auto 4px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:#4cf08b;
+  border:2px solid rgba(76,240,139,.8);
+  background:rgba(34,197,94,.11);
+  box-shadow:0 0 42px rgba(34,197,94,.18);
+  animation:ssReturnPulse 2.2s ease-in-out infinite;
+}
+
+.ss-return-status{
+  width:100%;
+  min-height:72px;
+  display:grid;
+  grid-template-columns:48px 1fr;
+  gap:10px;
+  align-items:center;
+  margin:2px 0 16px;
+  padding:11px 13px;
+  text-align:left;
+  border:1px solid rgba(246,201,104,.19);
+  border-radius:17px;
+  color:var(--ss-gold);
+  background:rgba(246,201,104,.045);
+}
+
+.ss-return-status>svg{
+  justify-self:center;
+}
+
+.ss-return-status>span{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.ss-return-status small{
+  color:#9f9285;
+  font-size:9px;
+}
+
+.ss-return-status strong{
+  color:#fff4df;
+  font-size:12px;
+  line-height:1.35;
+}
+
+.ss-flow-toast{
+  position:fixed;
+  z-index:180;
+  left:50%;
+  bottom:max(22px,calc(env(safe-area-inset-bottom) + 16px));
+  width:min(calc(100% - 28px),420px);
+  transform:translateX(-50%);
+  display:grid;
+  grid-template-columns:36px 1fr;
+  gap:9px;
+  align-items:center;
+  padding:11px 13px;
+  border:1px solid rgba(246,201,104,.34);
+  border-radius:16px;
+  color:var(--ss-gold);
+  background:rgba(18,13,10,.97);
+  box-shadow:0 18px 50px rgba(0,0,0,.5);
+  animation:ssToastIn .25s ease both;
+}
+
+.ss-flow-toast>svg{
+  justify-self:center;
+}
+
+.ss-flow-toast>span{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.ss-flow-toast strong{
+  color:#fff4df;
+  font-size:11px;
+}
+
+.ss-flow-toast small{
+  color:#a99b8d;
+  font-size:9px;
+  line-height:1.35;
+}
+
+@keyframes ssHandoffSpin{to{transform:rotate(360deg)}}
+@keyframes ssReturnPulse{50%{transform:scale(1.035);box-shadow:0 0 52px rgba(34,197,94,.27)}}
+@keyframes ssToastIn{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+
+@media (max-width:560px){
+  .ss-checkout-screen{
+    padding-left:16px;
+    padding-right:16px;
+    padding-bottom:max(38px,env(safe-area-inset-bottom));
+  }
+
+  .ss-checkout-copy h1{
+    font-size:32px;
+  }
+
+  .ss-order-form label{
+    min-height:75px;
+  }
+
+  .ss-payment-options>button{
+    min-height:112px;
+  }
+
+  .ss-checkout-screen>.ss-primary-button,
+  .ss-order-form>.ss-primary-button{
+    min-height:60px;
+    bottom:max(8px,env(safe-area-inset-bottom));
+  }
+
+  .ss-handoff-layer{
+    padding:0;
+    align-items:stretch;
+  }
+
+  .ss-handoff-card{
+    width:100%;
+    min-height:100svh;
+    max-height:100svh;
+    border:0;
+    border-radius:0;
+    padding:max(34px,calc(env(safe-area-inset-top) + 22px)) 20px max(24px,calc(env(safe-area-inset-bottom) + 18px));
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  .ss-handoff-card>img{
+    align-self:center;
+  }
+
+  .ss-handoff-progress{
+    width:100%;
+  }
+}
+
+@media (max-width:370px){
+  .ss-checkout-screen{
+    padding-left:13px;
+    padding-right:13px;
+  }
+
+  .ss-stepper small{
+    font-size:7.5px;
+  }
+
+  .ss-payment-options>button{
+    grid-template-columns:48px 1fr 26px;
+    padding:12px 10px;
+  }
+
+  .ss-payment-icon{
+    width:46px;
+    height:46px;
+  }
+}
