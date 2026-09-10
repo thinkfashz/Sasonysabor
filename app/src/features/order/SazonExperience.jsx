@@ -7,17 +7,44 @@ import MobileOrderingApp from './MobileOrderingApp';
 
 export default function SazonExperience() {
   const [contactOpen, setContactOpen] = useState(false);
+  const [promoActive, setPromoActive] = useState(false);
+
+  const selectPromotions = () => {
+    const findAndSelect = () => {
+      const filters = [...document.querySelectorAll('.ss-filter-row button')];
+      const promoFilter = filters.find((button) => button.textContent?.trim() === 'Promociones');
+      promoFilter?.click();
+    };
+
+    const catalogButton = document.querySelector('.ss-bottom-nav button:nth-child(2)');
+    catalogButton?.click();
+    requestAnimationFrame(() => requestAnimationFrame(findAndSelect));
+    setTimeout(findAndSelect, 80);
+  };
 
   const onExperienceClickCapture = (event) => {
     const target = event.target;
     if (!(target instanceof Element)) return;
 
     const bottomButton = target.closest('.ss-bottom-nav button');
+
+    if (bottomButton?.matches(':nth-child(3)')) {
+      event.preventDefault();
+      event.stopPropagation();
+      setPromoActive(true);
+      selectPromotions();
+      return;
+    }
+
     if (bottomButton?.matches(':last-child')) {
       event.preventDefault();
       event.stopPropagation();
       setContactOpen(true);
       return;
+    }
+
+    if (bottomButton && !bottomButton.matches(':nth-child(3)')) {
+      setPromoActive(false);
     }
 
     const tile = target.closest('.ss-product-tile');
@@ -36,7 +63,7 @@ export default function SazonExperience() {
   const whatsappUrl = brand.whatsappUrl || `https://wa.me/${brand.phone.replace(/\D/g, '')}`;
 
   return (
-    <div className="ss-experience" onClickCapture={onExperienceClickCapture}>
+    <div className={`ss-experience ${promoActive ? 'ss-promotions-active' : ''}`} onClickCapture={onExperienceClickCapture}>
       <MobileOrderingApp />
 
       {contactOpen ? (
