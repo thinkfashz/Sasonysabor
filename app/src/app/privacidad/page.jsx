@@ -1,7 +1,7 @@
 import LegalPage from '@/components/LegalPage';
 
 export const metadata = {
-  title: 'Privacidad y uso de datos | Sazón y Sabor',
+  title: 'Privacidad y uso de datos',
   description: 'Conoce qué datos usa Sazón y Sabor para gestionar pedidos, coordinar despacho o retiro y confirmar compras por WhatsApp.',
   alternates: { canonical: '/privacidad' },
 };
