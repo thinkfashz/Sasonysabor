@@ -1,7 +1,7 @@
 import LegalPage from '@/components/LegalPage';
 
 export const metadata = {
-  title: 'Términos de compra y uso | Sazón y Sabor',
+  title: 'Términos de compra y uso',
   description: 'Condiciones para pedidos, promociones, retiro, despacho, WhatsApp y transferencia en Sazón y Sabor.',
   alternates: { canonical: '/terminos' },
 };
