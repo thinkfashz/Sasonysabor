@@ -1,8 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { brand, visuals } from '@/data/menu';
 
-export const runtime = 'edge';
-
 const creatives = {
   hero: {
     title: 'Sazón y Sabor',
