@@ -61,15 +61,17 @@ export function getRelatedProducts(product, limit = 4) {
     .slice(0, limit);
 }
 
-export function buildCartLine(product, selectedExtras = [], quantity = 1) {
+export function buildCartLine(product, selectedExtras = [], quantity = 1, notes = '') {
   const extraIds = selectedExtras.map((extra) => extra.id).sort();
-  const lineId = [product.id, ...extraIds].join('__');
+  const normalizedNote = notes.trim().toLowerCase().replace(/[^a-z0-9áéíóúüñ]+/gi, '-').slice(0, 32) || 'standard';
+  const lineId = [product.id, ...extraIds, normalizedNote].join('__');
   const extrasTotal = selectedExtras.reduce((sum, extra) => sum + extra.price, 0);
 
   return {
     lineId,
     product,
     extras: selectedExtras,
+    notes,
     quantity,
     unitPrice: product.price + extrasTotal,
   };
