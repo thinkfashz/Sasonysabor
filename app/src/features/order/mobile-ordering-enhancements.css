@@ -29,6 +29,26 @@
 .ss-contact-action.whatsapp{background:linear-gradient(135deg,#20a85a,#11783c)}
 .ss-contact-action.instagram{background:linear-gradient(135deg,#7c2ba8,#d82b66 52%,#f18b2d)}
 
+/* Dedicated promotions state. The data remains in menu-cloudinary.js; this layer only changes presentation. */
+.ss-promotions-active .ss-catalog-screen{background:radial-gradient(circle at 50% 6%,rgba(207,26,31,.18),transparent 30%),linear-gradient(180deg,#100908 0%,#080706 55%,#050505 100%)}
+.ss-promotions-active .ss-catalog-screen .ss-subpage-head div small{font-size:0}
+.ss-promotions-active .ss-catalog-screen .ss-subpage-head div small::after{content:'PROMOCIONES';font-size:9px;letter-spacing:.14em;color:var(--ss-gold)}
+.ss-promotions-active .ss-catalog-screen .ss-subpage-head div strong{font-size:0}
+.ss-promotions-active .ss-catalog-screen .ss-subpage-head div strong::after{content:'Ofertas para compartir';font-size:15px;color:var(--ss-text)}
+.ss-promotions-active .ss-filter-row{display:none!important}
+.ss-promotions-active .ss-search-box{margin-bottom:14px;border-color:rgba(246,201,104,.24);background:rgba(246,201,104,.045)}
+.ss-promotions-active .ss-catalog-grid{grid-template-columns:1fr!important;gap:15px!important}
+.ss-promotions-active .ss-catalog-grid .ss-product-tile{display:grid;grid-template-columns:42% 1fr;min-height:152px;border-color:rgba(246,201,104,.22);background:linear-gradient(135deg,rgba(119,14,18,.24),rgba(255,255,255,.025));box-shadow:0 16px 40px rgba(0,0,0,.24)}
+.ss-promotions-active .ss-catalog-grid .ss-product-media{min-height:152px;height:100%;border-radius:19px 0 0 19px;background:radial-gradient(circle at center,rgba(246,201,104,.18),transparent 64%)}
+.ss-promotions-active .ss-catalog-grid .ss-product-media img{max-height:142px;filter:drop-shadow(0 12px 16px rgba(0,0,0,.38))}
+.ss-promotions-active .ss-catalog-grid .ss-product-copy{padding:14px 13px 12px!important;display:flex;flex-direction:column;justify-content:center}
+.ss-promotions-active .ss-catalog-grid .ss-product-copy>span{color:var(--ss-gold)!important;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+.ss-promotions-active .ss-catalog-grid .ss-product-copy h3{font-size:17px!important;line-height:1.08;margin-top:4px}
+.ss-promotions-active .ss-catalog-grid .ss-product-copy p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;line-height:1.35}
+.ss-promotions-active .ss-catalog-grid .ss-product-copy::after{content:'Ver promo y pedir';color:#ffcf72}
+.ss-promotions-active .ss-bottom-nav button:nth-child(2).active{color:#aaa098!important;background:transparent!important}
+.ss-promotions-active .ss-bottom-nav button:nth-child(3){color:var(--ss-gold)!important;background:linear-gradient(180deg,rgba(215,25,32,.2),rgba(215,25,32,.08))!important}
+
 @keyframes ssContactIn{from{opacity:0;transform:translateY(24px) scale(.985)}to{opacity:1;transform:none}}
 
 @media (max-width:900px){
@@ -82,6 +102,10 @@
   .ss-product-copy>div>strong{font-size:16px!important}
   .ss-product-copy>div>button{width:42px!important;height:42px!important}
   .ss-product-copy>div>button svg{width:20px;height:20px}
+
+  .ss-promotions-active .ss-catalog-grid .ss-product-tile{grid-template-columns:40% 1fr;min-height:146px}
+  .ss-promotions-active .ss-catalog-grid .ss-product-media{min-height:146px}
+  .ss-promotions-active .ss-catalog-grid .ss-product-copy h3{font-size:16px!important}
 
   .ss-screen{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
   .ss-product-screen,.ss-checkout-screen,.ss-success-screen{padding-bottom:calc(38px + env(safe-area-inset-bottom))!important}
