@@ -30,7 +30,7 @@ export default function MenuPage() {
       '@type': 'ListItem',
       position: index + 1,
       item: {
-        '@type': 'Product',
+        '@type': 'MenuItem',
         name: product.name,
         description: product.description,
         image: product.image,
@@ -38,7 +38,6 @@ export default function MenuPage() {
           '@type': 'Offer',
           priceCurrency: 'CLP',
           price: product.price,
-          availability: 'https://schema.org/InStock',
           url: 'https://sazon-y-sabor-phi.vercel.app/',
         },
       },
