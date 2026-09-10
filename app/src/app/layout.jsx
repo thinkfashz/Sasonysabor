@@ -1,5 +1,6 @@
 import './globals.css';
 import './premium.css';
+import '@/features/order/mobile-ordering.css';
 
 export const metadata = {
   title: 'Sazón y Sabor | Chile Colombia en la Casa',
@@ -10,7 +11,7 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: '#ffc928'
+  themeColor: '#080706'
 };
 
 export default function RootLayout({ children }) {
