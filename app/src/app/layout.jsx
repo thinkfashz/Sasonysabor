@@ -1,6 +1,7 @@
 import './globals.css';
 import './premium.css';
 import '@/features/order/mobile-ordering.css';
+import '@/features/order/mobile-ordering-responsive.css';
 
 export const metadata = {
   title: 'Sazón y Sabor | Chile Colombia en la Casa',
