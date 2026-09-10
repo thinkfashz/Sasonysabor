@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { brand } from '@/data/menu';
 
 export const metadata = {
-  title: 'Promociones de completos, churrascos y patacones | Sazón y Sabor',
+  title: 'Promociones de completos, churrascos y patacones',
   description: 'Promociones de Sazón y Sabor: completos italianos, churrascos italianos, patacones, papas dos carnes y pedidos por WhatsApp o retiro en local.',
   alternates: { canonical: '/promociones' },
   openGraph: {
