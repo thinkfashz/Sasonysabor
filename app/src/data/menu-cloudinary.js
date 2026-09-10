@@ -38,7 +38,7 @@ const p = (id, name, category, price, description, image, extras = {}) => ({
 
 // Fuente maestra: Menú Maestro Sazón y Sabor, capturado el 10-Sep-2026.
 // No se agregan ingredientes que no estén respaldados por la carta entregada.
-export const products = [
+const regularProducts = [
   p('completo','Completo','Completos',2200,'Salsa americana, palta, tomate, mayo.',visuals.completo,{popular:true}),
   p('italiano','Italiano','Completos',2000,'Palta, tomate, mayo.',visuals.completo,{popular:true}),
   p('dinamico','Dinámico','Completos',2200,'Salsa americana, chucrut, palta, tomate, mayo.',visuals.completo),
@@ -103,15 +103,36 @@ export const products = [
   p('menu-kids','Menú Kids','Kids',4000,'Papas fritas 150 g + 5 nuggets + 3 empanadas de queso.',visuals.kids,{popular:true})
 ];
 
+// Promociones incorporadas desde las piezas gráficas entregadas en esta revisión.
+// Se mantienen separadas del menú regular para poder administrarlas y retirarlas sin tocar productos base.
+export const promoProducts = [
+  p('promo-patacones-mechada','2 Patacones con Carne Mechada y Guacamole','Promociones',15000,'2 patacones con carne mechada y guacamole + Coca-Cola 1,5 L.',visuals.combo,{promotion:true}),
+  p('promo-2-completos-papas','2 Completos + Papas Chicas','Promociones',6500,'2 completos + una porción de papas chicas.',visuals.completosCombo,{promotion:true}),
+  p('promo-2-churrascos-papas','2 Churrascos Italianos + 2 Papas Fritas','Promociones',11500,'2 churrascos italianos + 2 porciones de papas fritas.',visuals.seleccion,{promotion:true}),
+  p('promo-papas-dos-carnes','Papas Dos Carnes + Bebida 1,5 L','Promociones',12000,'Papas dos carnes con longaniza, cebolla caramelizada, carne y 2 huevos + bebida 1,5 L.',visuals.chorrillana,{promotion:true}),
+  p('promo-3-chacareros','3 Churrascos Chacareros + Bebida 2 L','Promociones',15000,'3 churrascos chacareros + 1 bebida de 2 litros.',visuals.churrasco,{promotion:true}),
+  p('promo-3-barros-lucos','3 Barros Lucos','Promociones',12000,'3 Barros Lucos.',visuals.churrasco,{promotion:true}),
+  p('promo-3-churrascos-litro','3 Churrascos Italianos + Bebida 1 L','Promociones',12000,'3 churrascos italianos + 1 bebida de 1 litro.',visuals.seleccion,{promotion:true}),
+  p('promo-5-sopaipillas','5 Sopaipillas','Promociones',2000,'5 sopaipillas por $2.000, según la pieza promocional entregada.',visuals.arepa,{promotion:true}),
+  p('promo-2-italianos-salchipapa','2 Completos Italianos + Salchipapa Chica','Promociones',7500,'2 completos italianos + 1 salchipapa chica.',visuals.completosCombo,{promotion:true}),
+  p('promo-3-italianos','3 Completos Italianos','Promociones',4500,'3 completos italianos.',visuals.completo,{promotion:true})
+];
+
+export const products = [...regularProducts, ...promoProducts];
+
 export const extras = [
   { id:'pebre', name:'Pebre', price:500 },
   { id:'guacamole', name:'Guacamole', price:1000 },
   { id:'mechaqueso', name:'Mechaqueso', price:2800 }
 ];
 
-export const promotions = [
-  { id:'promo-3-italianos', title:'3 completos italianos', price:4500, image:visuals.completo },
-  { id:'promo-3-churrascos-litro', title:'3 churrascos italianos + 1 bebida de 1 litro', price:12000, image:visuals.seleccion }
-];
+export const promotions = promoProducts.map((item) => ({
+  id: item.id,
+  title: item.name,
+  price: item.price,
+  image: item.image,
+  description: item.description,
+  productId: item.id
+}));
 
 export const categories = ['Todos', ...new Set(products.map((item)=>item.category))];
