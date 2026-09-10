@@ -1,0 +1,38 @@
+@media (min-width: 901px) {
+  .ss-phone-shell {
+    height: calc(100svh - 32px);
+  }
+
+  .ss-screen-transition,
+  .ss-screen {
+    height: 100%;
+  }
+
+  .ss-screen {
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .ss-screen::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .ss-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .ss-screen {
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .ss-product-screen,
+  .ss-checkout-screen,
+  .ss-success-screen {
+    padding-bottom: calc(34px + env(safe-area-inset-bottom));
+  }
+}
