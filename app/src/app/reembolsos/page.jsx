@@ -1,7 +1,7 @@
 import LegalPage from '@/components/LegalPage';
 
 export const metadata = {
-  title: 'Cambios, cancelaciones y reembolsos | Sazón y Sabor',
+  title: 'Cambios, cancelaciones y reembolsos',
   description: 'Política de cambios, cancelaciones y reembolsos para alimentos preparados y pedidos de Sazón y Sabor.',
   alternates: { canonical: '/reembolsos' },
 };
