@@ -1,0 +1,5 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "cd app && npm install --no-audit --no-fund",
+  "buildCommand": "cd app && npm run build && rm -rf ../.next && cp -R .next ../.next"
+}
