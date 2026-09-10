@@ -5,6 +5,7 @@ import '@/features/order/mobile-ordering-enhancements.css';
 import '@/features/order/checkout-flow-enhancements.css';
 import '@/features/order/cart-commerce-ux.css';
 import '@/features/order/marketing-legal.css';
+import '@/features/order/menu-seo.css';
 
 const SITE_URL = 'https://sazon-y-sabor-phi.vercel.app';
 
