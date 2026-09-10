@@ -32,7 +32,7 @@ const jsonLd = {
         addressCountry: 'CL',
       },
       sameAs: [brand.instagramUrl],
-      hasMenu: `${SITE_URL}/promociones`,
+      hasMenu: `${SITE_URL}/menu`,
       potentialAction: {
         '@type': 'OrderAction',
         target: SITE_URL,
