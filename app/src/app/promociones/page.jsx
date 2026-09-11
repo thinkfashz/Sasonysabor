@@ -47,10 +47,10 @@ export default function PromotionsPage() {
           </div>
           <ol>
             <li><b>Sigue</b> a {brand.instagram} en Instagram.</li>
-            <li><b>Publica o comparte</b> la imagen de la aplicación o de esta promoción y menciona a {brand.instagram}.</li>
+            <li><b>Publica o comparte</b> la imagen de la aplicación o de esta promoción en una publicación o historia y menciona a {brand.instagram}.</li>
             <li><b>Envía la captura</b> por WhatsApp o por mensaje directo de Instagram para validar la participación.</li>
           </ol>
-          <p className="ss-giveaway-note">Cada cuenta real distinta que replique la promoción y te mencione puede sumar una oportunidad adicional. Para contar, debes enviar la captura correspondiente. La misma captura no se contabiliza dos veces.</p>
+          <p className="ss-giveaway-note">Si otras cuentas reales replican la promoción desde tu participación, pídeles que mencionen a {brand.instagram} y también tu cuenta. Cada cuenta distinta validada con captura suma una participación adicional a tu nombre. La misma cuenta o captura no se contabiliza dos veces.</p>
           <p className="ss-giveaway-note">No necesitas comprar para participar. La fecha de cierre, validación y forma de selección de la persona ganadora se comunicarán por los canales oficiales de Sazón y Sabor.</p>
           <div className="ss-giveaway-actions">
             <a href={`${brand.whatsappUrl}?text=${giveawayMessage}`} target="_blank" rel="noreferrer">Enviar captura por WhatsApp</a>

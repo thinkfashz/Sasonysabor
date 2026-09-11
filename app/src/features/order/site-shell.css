@@ -32,6 +32,7 @@
 .ss-phone-shell>.ss-bottom-nav{display:none!important}
 
 .ss-home-market{min-height:100vh}
+.ss-marketing-hero-copy h1{margin:8px 0 10px;color:#fff;line-height:1.03;font-size:clamp(32px,5vw,50px)}
 .ss-home-market .ss-marketing-hero-copy>div a:first-child{background:var(--ss-gold);color:#17100a}
 .ss-home-market .ss-marketing-hero-copy>div a:nth-child(2){background:var(--ss-red);color:#fff}
 
@@ -105,7 +106,7 @@
   background:radial-gradient(circle at 50% 0%,rgba(176,18,18,.2),transparent 34rem),#080706;
 }
 .ss-contact-wrap{max-width:920px;margin:0 auto;text-align:center}
-.ss-contact-wrap>img{width:280px;max-width:72vw;height:auto}
+.ss-contact-wrap>a:first-child img{width:280px;max-width:72vw;height:auto}
 .ss-contact-wrap>span{display:block;margin-top:14px;color:var(--ss-gold);font-size:12px;font-weight:900;letter-spacing:.13em}
 .ss-contact-wrap h1{margin:8px 0 10px;font-size:clamp(36px,7vw,66px);line-height:1}
 .ss-contact-wrap>p{max-width:680px;margin:0 auto;color:#c8beb2;line-height:1.6}
@@ -121,6 +122,7 @@
 
 @media (min-width:901px){
   .ss-route-nav{right:18px;top:50%;transform:translateY(-50%);grid-template-columns:1fr;border-radius:22px}
+  .ss-marketing,.ss-promos-page,.ss-menu-page,.ss-legal-page,.ss-contact-page{padding-right:112px!important}
   .ss-stage .ss-desktop-side-copy{right:112px}
   .ss-phone-shell{height:min(860px,calc(100svh - 32px));min-height:0!important}
   .ss-screen-transition{height:100%!important;min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain;scrollbar-width:none}

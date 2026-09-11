@@ -38,6 +38,8 @@ const money = (value) => new Intl.NumberFormat('es-CL', {
   maximumFractionDigits: 0,
 }).format(value);
 
+const categoryAnchor = (category) => category.toLowerCase().replace(/\s+/g, '-');
+
 export default function MarketingShowcase() {
   return (
     <main className="ss-marketing ss-home-market" aria-labelledby="promociones-destacadas">
@@ -70,7 +72,7 @@ export default function MarketingShowcase() {
         </div>
         <div className="ss-featured-menu-grid">
           {featured.map((product) => (
-            <Link className="ss-featured-menu-card" href="/pedido" key={product.id}>
+            <Link className="ss-featured-menu-card" href={`/menu#${categoryAnchor(product.category)}`} key={product.id}>
               <img src={product.image} alt={product.name} loading="lazy" />
               <div>
                 <span>{product.category}</span>
@@ -117,7 +119,7 @@ export default function MarketingShowcase() {
         <div className="ss-giveaway-copy">
           <span>SORTEO EN REDES</span>
           <h2 id="sorteo-home">Comparte, menciona y participa</h2>
-          <p>Sigue nuestra cuenta, comparte la promoción mencionándonos y envía la captura para validar tu participación.</p>
+          <p>Sigue nuestra cuenta, comparte la promoción en una publicación o historia mencionándonos y envía la captura para validar tu participación.</p>
           <div className="ss-giveaway-prize">
             <small>PREMIO</small>
             <strong>2 churrascos + 1 completo + bebida de 1,5 L</strong>
@@ -127,7 +129,7 @@ export default function MarketingShowcase() {
             <li>Publica o comparte la imagen de la promoción y menciona a <b>{brand.instagram}</b>.</li>
             <li>Envía la captura por WhatsApp o por mensaje directo en Instagram.</li>
           </ol>
-          <p className="ss-giveaway-note">Cada cuenta real distinta que replique la promoción y te mencione puede sumar una oportunidad adicional cuando envías la captura para validarla.</p>
+          <p className="ss-giveaway-note">Si otras cuentas reales replican la promoción desde tu participación, pídeles que mencionen a {brand.instagram} y también tu cuenta. Cada cuenta distinta validada con captura suma una participación adicional a tu nombre.</p>
           <div className="ss-giveaway-actions">
             <Link href="/promociones#sorteo-redes">Ver cómo participar</Link>
             <a href={brand.instagramUrl} target="_blank" rel="noreferrer">Ir a Instagram</a>
