@@ -7,8 +7,15 @@ const creatives = {
     subtitle: 'PROMOCIONES · COMPLETOS · CHURRASCOS · PATACONES Y MÁS',
     price: 'Pide fácil desde nuestra app',
     image: visuals.seleccion,
-    note: 'WhatsApp · Retiro en local · Transferencia',
+    note: 'Catálogo · Promos · Pedido directo',
     wide: true,
+  },
+  'sorteo-redes': {
+    title: 'SORTEO EN REDES',
+    subtitle: '2 CHURRASCOS + 1 COMPLETO + BEBIDA 1,5 L',
+    price: 'PARTICIPA GRATIS',
+    image: visuals.seleccion,
+    note: 'Sigue · menciona · envía tu captura',
   },
   'completos-papas': {
     title: '2 COMPLETOS ITALIANOS',

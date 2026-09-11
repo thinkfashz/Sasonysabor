@@ -1,6 +1,4 @@
-import SazonExperience from '@/features/order/SazonExperience';
 import MarketingShowcase from '@/components/MarketingShowcase';
-import OrderConsentNotice from '@/components/OrderConsentNotice';
 import { brand } from '@/data/menu';
 
 const SITE_URL = 'https://sazon-y-sabor-phi.vercel.app';
@@ -35,7 +33,7 @@ const jsonLd = {
       hasMenu: `${SITE_URL}/menu`,
       potentialAction: {
         '@type': 'OrderAction',
-        target: SITE_URL,
+        target: `${SITE_URL}/pedido`,
       },
     },
   ],
@@ -48,9 +46,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
-      <SazonExperience />
       <MarketingShowcase />
-      <OrderConsentNotice />
     </>
   );
 }
