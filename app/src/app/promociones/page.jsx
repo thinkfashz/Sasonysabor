@@ -2,13 +2,13 @@ import Link from 'next/link';
 import { brand } from '@/data/menu';
 
 export const metadata = {
-  title: 'Promociones de completos, churrascos y patacones',
-  description: 'Promociones de Sazón y Sabor: completos italianos, churrascos italianos, patacones, papas dos carnes y pedidos por WhatsApp o retiro en local.',
+  title: 'Promociones y sorteo en redes',
+  description: 'Promociones de Sazón y Sabor: completos, churrascos, patacones y sorteo en redes por 2 churrascos, 1 completo y bebida de 1,5 L.',
   alternates: { canonical: '/promociones' },
   openGraph: {
-    title: 'Promociones Sazón y Sabor',
-    description: 'Completos, churrascos, patacones y papas en promociones para pedir por WhatsApp.',
-    images: ['/api/creative/hero'],
+    title: 'Promociones y sorteo | Sazón y Sabor',
+    description: 'Revisa promociones y participa en el sorteo de redes de Sazón y Sabor.',
+    images: ['/api/creative/sorteo-redes'],
   },
 };
 
@@ -19,6 +19,10 @@ const promos = [
   { slug:'papas-dos-carnes', title:'Papas Dos Carnes + Bebida 1,5 L', price:'$12.000', copy:'Longaniza, cebolla caramelizada, carne, dos huevos y bebida de 1,5 litros.' },
 ];
 
+const giveawayMessage = encodeURIComponent(
+  `Hola Sazón y Sabor 👋\nQuiero validar mi participación en el sorteo de redes. Ya sigo a ${brand.instagram}, compartí la promoción mencionándolos y quiero enviar mi captura.`,
+);
+
 export default function PromotionsPage() {
   return (
     <main className="ss-promos-page">
@@ -27,10 +31,33 @@ export default function PromotionsPage() {
         <div>
           <span>PROMOCIONES SÁZON Y SABOR</span>
           <h1>Promos para compartir y pedir fácil</h1>
-          <p>Elige una promoción y confirma disponibilidad directamente por WhatsApp. Los precios corresponden a las piezas promocionales vigentes cargadas en esta versión de la carta.</p>
+          <p>Revisa las ofertas vigentes, arma tu pedido o participa en nuestro sorteo de redes.</p>
         </div>
-        <nav><Link href="/">Volver al catálogo</Link><a href={brand.whatsappUrl} target="_blank" rel="noreferrer">Pedir por WhatsApp</a></nav>
+        <nav><Link href="/menu">Ver catálogo</Link><Link href="/pedido">Armar pedido</Link></nav>
       </header>
+
+      <section className="ss-giveaway-card" id="sorteo-redes" aria-labelledby="sorteo-titulo">
+        <img src="/api/creative/sorteo-redes" alt="Sorteo Sazón y Sabor: 2 churrascos, 1 completo y bebida de 1,5 litros" width="1080" height="1350" />
+        <div className="ss-giveaway-copy">
+          <span>SORTEO EN REDES</span>
+          <h2 id="sorteo-titulo">Participa por un premio para compartir</h2>
+          <div className="ss-giveaway-prize">
+            <small>PREMIO</small>
+            <strong>2 churrascos + 1 completo + bebida de 1,5 L</strong>
+          </div>
+          <ol>
+            <li><b>Sigue</b> a {brand.instagram} en Instagram.</li>
+            <li><b>Publica o comparte</b> la imagen de la aplicación o de esta promoción y menciona a {brand.instagram}.</li>
+            <li><b>Envía la captura</b> por WhatsApp o por mensaje directo de Instagram para validar la participación.</li>
+          </ol>
+          <p className="ss-giveaway-note">Cada cuenta real distinta que replique la promoción y te mencione puede sumar una oportunidad adicional. Para contar, debes enviar la captura correspondiente. La misma captura no se contabiliza dos veces.</p>
+          <p className="ss-giveaway-note">No necesitas comprar para participar. La fecha de cierre, validación y forma de selección de la persona ganadora se comunicarán por los canales oficiales de Sazón y Sabor.</p>
+          <div className="ss-giveaway-actions">
+            <a href={`${brand.whatsappUrl}?text=${giveawayMessage}`} target="_blank" rel="noreferrer">Enviar captura por WhatsApp</a>
+            <a href={brand.instagramUrl} target="_blank" rel="noreferrer">Enviar por Instagram</a>
+          </div>
+        </div>
+      </section>
 
       <section className="ss-promos-grid" aria-label="Promociones destacadas">
         {promos.map((promo) => (

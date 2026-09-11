@@ -6,6 +6,8 @@ import '@/features/order/checkout-flow-enhancements.css';
 import '@/features/order/cart-commerce-ux.css';
 import '@/features/order/marketing-legal.css';
 import '@/features/order/menu-seo.css';
+import '@/features/order/site-shell.css';
+import StoreNavigation from '@/components/StoreNavigation';
 
 const SITE_URL = 'https://sazon-y-sabor-phi.vercel.app';
 
@@ -87,7 +89,10 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es-CL">
-      <body>{children}</body>
+      <body>
+        {children}
+        <StoreNavigation />
+      </body>
     </html>
   );
 }

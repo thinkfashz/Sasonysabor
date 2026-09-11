@@ -38,7 +38,7 @@ export default function MenuPage() {
           '@type': 'Offer',
           priceCurrency: 'CLP',
           price: product.price,
-          url: 'https://sazon-y-sabor-phi.vercel.app/',
+          url: 'https://sazon-y-sabor-phi.vercel.app/pedido',
         },
       },
     })),
@@ -51,9 +51,9 @@ export default function MenuPage() {
         <Link href="/"><img src={brand.logo} alt="Sazón y Sabor" /></Link>
         <span>MENÚ COMPLETO · PRECIOS EN CLP</span>
         <h1>Elige tu próximo antojo</h1>
-        <p>Consulta productos, ingredientes y precios. Para comprar, vuelve a la experiencia de pedido y confirma disponibilidad con el local.</p>
+        <p>Consulta productos, ingredientes y precios. Cuando quieras comprar, entra a la página de pedido para seleccionar productos y confirmar con el local.</p>
         <nav>
-          <Link href="/">Abrir catálogo interactivo</Link>
+          <Link href="/pedido">Armar pedido</Link>
           <Link href="/promociones">Ver promociones</Link>
           <a href={brand.whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a>
         </nav>
